@@ -115,6 +115,7 @@
 			"io.github.jimbozoomer.jugcraft.test.LaboratoryLarderDiningGameTests",
 			"io.github.jimbozoomer.jugcraft.test.PumpkinNightGameTests",
 			"io.github.jimbozoomer.jugcraft.test.PetroGameTests",
+			"io.github.jimbozoomer.jugcraft.test.GasTankGameTests",
 			"io.github.jimbozoomer.jugcraft.test.PartyGameTests",
 			"io.github.jimbozoomer.jugcraft.test.DroneGameTests",
 			"io.github.jimbozoomer.jugcraft.test.TowerGameTests",
