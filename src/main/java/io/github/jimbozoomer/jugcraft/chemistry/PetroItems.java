@@ -49,6 +49,9 @@ public final class PetroItems {
 	public static Item AMMONIUM_NITRATE;
 	public static Item RUTHENIUM_POWDER;
 	public static Item RUTHENIUM_CATALYST_BED;
+	/** The Polymer Molding Press's reusable molds, held in its tool socket and never used up. */
+	public static Item SHEET_MOLD;
+	public static Item GASKET_MOLD;
 	/** Bone meal doses ammonium nitrate gives each crop. */
 	public static final int AMMONIUM_NITRATE_DOSES = 3;
 	public static Item VANADIUM_CONTACT_BED;
@@ -86,6 +89,8 @@ public final class PetroItems {
 				properties -> new FertilizerItem(properties, FertilizerItem.RADIUS, AMMONIUM_NITRATE_DOSES));
 		RUTHENIUM_POWDER = JugcraftRegistry.item("ruthenium_powder");
 		RUTHENIUM_CATALYST_BED = JugcraftRegistry.item("ruthenium_catalyst_bed", properties -> new Item(properties.stacksTo(1)));
+		SHEET_MOLD = JugcraftRegistry.item("sheet_mold", properties -> new Item(properties.stacksTo(1)));
+		GASKET_MOLD = JugcraftRegistry.item("gasket_mold", properties -> new Item(properties.stacksTo(1)));
 
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(output -> {
 			output.accept(CRACKING_CATALYST);
@@ -108,6 +113,8 @@ public final class PetroItems {
 			output.accept(AMMONIUM_NITRATE);
 			output.accept(RUTHENIUM_POWDER);
 			output.accept(RUTHENIUM_CATALYST_BED);
+			output.accept(SHEET_MOLD);
+			output.accept(GASKET_MOLD);
 			output.accept(VANADIUM_CONTACT_BED);
 		});
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(output -> {

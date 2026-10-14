@@ -211,6 +211,9 @@ ITEMS = {
     # ore with hydrochloric acid and chlorine in the Bulk Chemical Reactor, laid on the nickel bed. Never used up.
     "ruthenium_powder": "Ruthenium Powder",
     "ruthenium_catalyst_bed": "Ruthenium Catalyst Bed",
+    # The Polymer Molding Press's reusable molds (tools/industrial_forms.py): held in its tool socket, never used up.
+    "sheet_mold": "Sheet Mold",
+    "gasket_mold": "Gasket Mold",
 }
 
 

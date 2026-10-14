@@ -1,0 +1,21 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "machines"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PIP"
+  ],
+  "key": {
+    "P": "#c:plates/steel",
+    "I": "#c:ingots/steel"
+  },
+  "result": {
+    "id": "jugcraft:sheet_mold",
+    "count": 1
+  }
+}

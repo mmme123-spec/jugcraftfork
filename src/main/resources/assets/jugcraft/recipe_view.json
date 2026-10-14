@@ -7406,6 +7406,83 @@
       ]
     },
     {
+      "block": "jugcraft:polymer_molding_press",
+      "type": "polymer_molding_press",
+      "stations": [],
+      "recipes": [
+        {
+          "items": [
+            [
+              "jugcraft:plastic_pellets",
+              1
+            ]
+          ],
+          "fluids": [
+            [
+              "minecraft:water",
+              50
+            ]
+          ],
+          "fluid_results": [],
+          "results": [
+            [
+              "jugcraft:plastic_sheet",
+              2
+            ]
+          ],
+          "ticks": 40
+        },
+        {
+          "items": [
+            [
+              "jugcraft:pvc_resin",
+              1
+            ]
+          ],
+          "fluids": [
+            [
+              "minecraft:water",
+              50
+            ]
+          ],
+          "fluid_results": [],
+          "results": [
+            [
+              "jugcraft:plastic_sheet",
+              3
+            ]
+          ],
+          "ticks": 40
+        },
+        {
+          "items": [
+            [
+              "jugcraft:plastic_pellets",
+              1
+            ],
+            [
+              "jugcraft:rubber",
+              1
+            ]
+          ],
+          "fluids": [
+            [
+              "minecraft:water",
+              50
+            ]
+          ],
+          "fluid_results": [],
+          "results": [
+            [
+              "jugcraft:gasket",
+              4
+            ]
+          ],
+          "ticks": 60
+        }
+      ]
+    },
+    {
       "block": "jugcraft:chemical_infuser",
       "type": "chemical_infuser",
       "stations": [

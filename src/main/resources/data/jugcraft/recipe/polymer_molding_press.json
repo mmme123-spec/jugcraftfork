@@ -1,0 +1,30 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "machines"
+    },
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "crude_oil"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PMP",
+    "GXG",
+    "PCP"
+  ],
+  "key": {
+    "P": "#c:plates/steel",
+    "M": "jugcraft:electric_motor",
+    "G": "#c:gears/steel",
+    "X": "jugcraft:metal_press",
+    "C": "jugcraft:basic_circuit"
+  },
+  "result": {
+    "id": "jugcraft:polymer_molding_press",
+    "count": 1
+  }
+}

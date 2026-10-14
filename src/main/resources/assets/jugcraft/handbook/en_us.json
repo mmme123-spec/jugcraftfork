@@ -3879,6 +3879,30 @@
           }
         },
         {
+          "title": "Polymer Molding Press",
+          "icon": "jugcraft:polymer_molding_press",
+          "text": [
+            "Two wide, three deep and three tall: a mold chamber between platens on four tie bars, with a heated barrel and a hopper behind, built from a Metal Press, an electric motor, two steel gears, steel plates and a basic circuit.",
+            "Put a mold in its tool socket; it is never used up. A Sheet Mold (two steel plates round a steel ingot) makes two plastic sheets from a plastic pellet, or three from PVC resin, where the Metal Press makes one and two. A Gasket Mold (two steel ingots round a plate) makes four gaskets from a pellet and a piece of rubber, with no steel plate.",
+            "Each shot uses 50 mB of cooling water, piped into the inlet low on its left side. Stock goes in at the hopper on top at the back; products leave at the guarded tray at the front. Power comes in at the junction box at the back."
+          ],
+          "craft": {
+            "grid": [
+              "jugcraft:steel_plate",
+              "jugcraft:electric_motor",
+              "jugcraft:steel_plate",
+              "jugcraft:steel_gear",
+              "jugcraft:metal_press",
+              "jugcraft:steel_gear",
+              "jugcraft:steel_plate",
+              "jugcraft:basic_circuit",
+              "jugcraft:steel_plate"
+            ],
+            "result": "jugcraft:polymer_molding_press",
+            "count": 1
+          }
+        },
+        {
           "title": "Chemical Reactor",
           "icon": "jugcraft:chemical_reactor",
           "text": [

@@ -61,6 +61,10 @@ public final class IndustrialForms {
 	public static final String PRECIOUS_METAL_RECOVERY = "jugcraft:precious_metal_recovery";
 	/** Concentrating and purifying demanding reagents (the Reagent Purification Station). */
 	public static final String REAGENT_PURIFICATION = "jugcraft:reagent_purification";
+	/** Shaping polymer stock in a reusable mold (the Polymer Molding Press). */
+	public static final String POLYMER_MOLDING = "jugcraft:polymer_molding";
+	/** What the Molding Press's tool socket holds: its reusable molds. */
+	public static final TagKey<Item> MOLDS = TagKey.create(Registries.ITEM, Jugcraft.id("molds"));
 	/** Joining a carbon oxide and hydrogen into methane over a nickel bed. */
 	public static final String NICKEL_METHANATION = "jugcraft:nickel_methanation";
 	/** What the Infuser's bed socket holds: the nickel catalyst bed and the vanadium contact bed. */
@@ -386,6 +390,29 @@ public final class IndustrialForms {
 			.build();
 
 	/**
+	 * The Polymer Molding Press: the plan's selected shared molding form with reusable tooling, 2x3x3, in the chemical
+	 * reactor family. Plastic stock goes in at the hopper (both item slots), the mold in its tool socket decides the
+	 * product, and each shot uses a little cooling water. Products leave at the guarded tray at the front.
+	 */
+	public static final MachineForm POLYMER_MOLDING_PRESS_FORM = MachineForm.builder(Jugcraft.id("polymer_molding_press"),
+					MachineKind.CHEMICAL_REACTOR)
+			.layer("C#", "##", "##")
+			.layer("##", "##", "##")
+			.layer("##", "##", "##")
+			.profile(OperatingProfile.ENTRY)
+			.inputTank("coolant")
+			.items(2, 1)
+			.socket("mold", MOLDS)
+			.capability(POLYMER_MOLDING)
+			.upgrades()
+			.warmup(40)
+			.port("feed_in", FormPort.Kind.ITEM_IN, FormPort.ALL, 1, 2, 2, FormSide.TOP)
+			.port("coolant_in", FormPort.Kind.FLUID_IN, 0, 0, 1, 0, FormSide.LEFT)
+			.port("product_out", FormPort.Kind.ITEM_OUT, FormPort.ALL, 1, 0, 0, FormSide.FRONT)
+			.port("power", FormPort.Kind.ENERGY_IN, 0, 0, 2, 0, FormSide.BACK)
+			.build();
+
+	/**
 	 * The Reagent Purification Station: the plan's shared purification station, 4x4x4, in the chemical reactor family.
 	 * It concentrates sulfuric acid (the boiled-off water leaving at its own outlet) and purifies the concentrate into
 	 * electronic-grade acid, the conditioning water used up inside that recipe. The controller is its instrument
@@ -537,6 +564,7 @@ public final class IndustrialForms {
 	public static FormMachineBlock ELECTROLYTIC_SEPARATOR;
 	public static FormMachineBlock BULK_ELECTROLYTIC_SEPARATOR;
 	public static FormMachineBlock REAGENT_PURIFICATION_STATION;
+	public static FormMachineBlock POLYMER_MOLDING_PRESS;
 	public static FormMachineBlock GAS_BURNING_GENERATOR;
 	public static FormMachineBlock CHEMICAL_INFUSER;
 	public static FormMachineBlock BULK_CHEMICAL_INFUSER;
@@ -561,6 +589,7 @@ public final class IndustrialForms {
 		ELECTROLYTIC_SEPARATOR = block("electrolytic_separator", ELECTROLYTIC_SEPARATOR_FORM);
 		BULK_ELECTROLYTIC_SEPARATOR = block("bulk_electrolytic_separator", BULK_ELECTROLYTIC_SEPARATOR_FORM);
 		REAGENT_PURIFICATION_STATION = block("reagent_purification_station", REAGENT_PURIFICATION_STATION_FORM);
+		POLYMER_MOLDING_PRESS = block("polymer_molding_press", POLYMER_MOLDING_PRESS_FORM);
 		GAS_BURNING_GENERATOR = block("gas_burning_generator", GAS_BURNING_GENERATOR_FORM);
 		CHEMICAL_INFUSER = block("chemical_infuser", CHEMICAL_INFUSER_FORM);
 		BULK_CHEMICAL_INFUSER = block("bulk_chemical_infuser", BULK_CHEMICAL_INFUSER_FORM);
@@ -579,7 +608,8 @@ public final class IndustrialForms {
 		List<FormMachineBlock> blocks = List.of(ELECTROLYTIC_SEPARATOR, BULK_ELECTROLYTIC_SEPARATOR, GAS_BURNING_GENERATOR,
 				CHEMICAL_INFUSER, BULK_CHEMICAL_INFUSER, CHEMICAL_OXIDIZER, BULK_CHEMICAL_OXIDIZER, INDUSTRIAL_FERMENTER, BULK_FERMENTER,
 				BULK_CHEMICAL_REACTOR, ANAEROBIC_DIGESTER, COAL_GASIFIER, GAS_CLEANUP_RACK, BIO_GENERATOR, LARGE_BIO_GENERATOR,
-				LARGE_GAS_BURNING_GENERATOR, COMBINED_CYCLE_PLANT, REAGENT_PURIFICATION_STATION);
+				LARGE_GAS_BURNING_GENERATOR, COMBINED_CYCLE_PLANT, REAGENT_PURIFICATION_STATION,
+				POLYMER_MOLDING_PRESS);
 		ENTITY = JugcraftForms.registerBlocks(Jugcraft.id("machine_form"), blocks.toArray(FormMachineBlock[]::new));
 		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(output -> blocks.forEach(output::accept));
 	}

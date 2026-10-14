@@ -303,6 +303,68 @@ def ruthenium_catalyst_bed():
     return img
 
 
+def _mold(cavity_rows):
+    """A steel mold half seen from the top left: a squat steel block, lit along its top and left edges, with two
+    dowel pins at its far corners and its cavity cut into the face (`cavity_rows`, 'c' dark, 'C' its lit lower
+    edge). Drawn flat in the item icon manner (docs/ITEM_ICONS.md), each part outlined in its own darkest tone."""
+    steel = [(58, 62, 68), (104, 110, 118), (146, 152, 160), (196, 202, 210)]
+    cavity = [(30, 32, 36), (70, 74, 80)]
+    brass = [(96, 70, 24), (200, 160, 70)]
+    rows = [
+        "................",
+        "................",
+        "................",
+        "oooooooooooooooo",
+        "oLLLLLLLLLLLLLLo",
+        "oLpPMMMMMMMMpPSo",
+        "oLMMMMMMMMMMMMSo",
+        "oLMMMMMMMMMMMMSo",
+        "oLMMMMMMMMMMMMSo",
+        "oLMMMMMMMMMMMMSo",
+        "oLMMMMMMMMMMMMSo",
+        "oLMMMMMMMMMMMMSo",
+        "oSSSSSSSSSSSSSSo",
+        "oooooooooooooooo",
+        "................",
+        "................",
+    ]
+    grid = [list(row) for row in rows]
+    for y, row in enumerate(cavity_rows):
+        for x, ch in enumerate(row):
+            if ch in "cC":
+                grid[6 + y][x] = ch
+    tones = {"o": steel[0], "S": steel[1], "M": steel[2], "L": steel[3], "c": cavity[0], "C": cavity[1],
+             "p": brass[0], "P": brass[1]}
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    for y, row in enumerate(grid):
+        for x, ch in enumerate(row):
+            if ch in tones:
+                img.putpixel((x, y), tones[ch] + (255,))
+    return img
+
+
+def sheet_mold():
+    """Sheet mold: a steel mold half with a broad, shallow rectangular cavity for a plastic sheet."""
+    return _mold([
+        "................",
+        "...cccccccccc...",
+        "...cccccccccc...",
+        "...cccccccccc...",
+        "...CCCCCCCCCC...",
+    ])
+
+
+def gasket_mold():
+    """Gasket mold: a steel mold half with a ring-shaped cavity round a raised steel core, for a gasket."""
+    return _mold([
+        ".....cccccc.....",
+        "....cc....cc....",
+        "....cc....cc....",
+        "....CC....CC....",
+        ".....CCCCCC.....",
+    ])
+
+
 def vanadium_contact_bed():
     """Vanadium contact bed: the nickel bed's fired-brick tray, heaped with orange-ochre vanadium oxide pellets. Drawn
     flat in the item icon manner (docs/ITEM_ICONS.md): each part outlined in its own darkest tone, lit from the top
@@ -674,6 +736,8 @@ def draw_all(save, save_animation):
     save(ammonium_nitrate(), "item", "ammonium_nitrate")
     save(ruthenium_powder(), "item", "ruthenium_powder")
     save(ruthenium_catalyst_bed(), "item", "ruthenium_catalyst_bed")
+    save(sheet_mold(), "item", "sheet_mold")
+    save(gasket_mold(), "item", "gasket_mold")
     save(guncotton(), "item", "guncotton")
     save(grenade(), "item", "grenade")
     save(grenade_launcher(), "item", "grenade_launcher")

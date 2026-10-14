@@ -60,6 +60,10 @@ NITRATE_NEUTRALIZATION = f"{MOD}:nitrate_neutralization"
 PRECIOUS_METAL_RECOVERY = f"{MOD}:precious_metal_recovery"
 # Concentrating and purifying demanding reagents (the Reagent Purification Station).
 REAGENT_PURIFICATION = f"{MOD}:reagent_purification"
+# Shaping polymer stock in a reusable mold (the Polymer Molding Press).
+POLYMER_MOLDING = f"{MOD}:polymer_molding"
+# What the Molding Press's tool socket holds: its reusable molds.
+MOLDS = "molds"
 
 # The owner's white tank family (the tank restyle) for the collection towers, with its checker band.
 TANK_BODY, TANK_TOP, TANK_CHECKER = "tk_body", "tk_top", "tk_checker"
@@ -88,6 +92,8 @@ BIO_GENERATOR_FUELS = [(f"{MOD}:bioethanol", 192, 96), (f"{MOD}:biogas", 268, 64
 # What the Combined Cycle Power Plant burns, the factory's big power station: methane at a quarter more than the gas
 # generator's 448 JE/mB (its exhaust raises steam for a second turbine) and 2,048 JE/t, four times the gas turbine; the
 # Coal Gasifier's raw syngas whole at 256 JE/mB and the same rate; hydrogen at the Fuel Cell's 128 JE/mB at 1,024 JE/t.
+# The Polymer Molding Press's cells, as its model fills them (form_layers on polymer_molding_press()).
+MOLDING_PRESS_LAYERS = [["C#", "##", "##"], ["##", "##", "##"], ["##", "##", "##"]]
 # The Reagent Purification Station's cells, as its model fills them (form_layers on reagent_purification_station()).
 REAGENT_STATION_LAYERS = [["C###", "####", "####", "####"],
                           ["####", "..##", "####", "####"],
@@ -211,6 +217,35 @@ FORMS = {
         "recipe": (["PIP", "TRT", "PCP"], {"P": "#c:plates/steel", "I": f"{MOD}:steel_fluid_pipe", "T": f"{MOD}:steel_tank",
                                            "R": f"{MOD}:chemical_reactor", "C": f"{MOD}:basic_circuit"}),
         "features": ["machines", "sulfur"],
+    },
+    "polymer_molding_press": {
+        "display": "Polymer Molding Press",
+        # The plan's selected shared molding form with reusable tooling (2x3x3 in the art brief), in the chemical reactor
+        # family (96 JE/t): plastic stock goes in at the hopper, a mold in its tool socket decides the product, and a
+        # little cooling water is used each shot.
+        "family": "chemical_reactor",
+        "layers": MOLDING_PRESS_LAYERS,
+        "profile": "ENTRY",
+        "tank_mb": 2_000,
+        "input_tanks": ["coolant"],
+        "output_tanks": [],
+        "item_inputs": 2,
+        "item_outputs": 1,
+        "capabilities": [POLYMER_MOLDING],
+        "sockets": [("mold", MOLDS)],
+        "upgrades": True,
+        "warmup": 40,
+        "ports": [
+            ("feed_in", "ITEM_IN", "FormPort.ALL", 1, 2, 2, "TOP"),
+            ("coolant_in", "FLUID_IN", 0, 0, 1, 0, "LEFT"),
+            ("product_out", "ITEM_OUT", "FormPort.ALL", 1, 0, 0, "FRONT"),
+            ("power", "ENERGY_IN", 0, 0, 2, 0, "BACK"),
+        ],
+        # This change's bill (open for review): a Metal Press's work done hot, with an electric motor, a heating coil's
+        # copper, steel plates and a basic circuit.
+        "recipe": (["PMP", "GXG", "PCP"], {"P": "#c:plates/steel", "M": f"{MOD}:electric_motor", "G": "#c:gears/steel",
+                                           "X": f"{MOD}:metal_press", "C": f"{MOD}:basic_circuit"}),
+        "features": ["machines", "crude_oil"],
     },
     "gas_burning_generator": {
         "display": "Gas Burning Generator",
@@ -794,6 +829,16 @@ HANDBOOK["bio_generator"] = [
         "the same inlet: 268 JE a millibucket at 64 JE/t, a bucket lasting about 210 seconds.",
     ]
 
+HANDBOOK["polymer_molding_press"] = [
+    "Two wide, three deep and three tall: a mold chamber between platens on four tie bars, with a heated barrel and a "
+    "hopper behind, built from a Metal Press, an electric motor, two steel gears, steel plates and a basic circuit.",
+    "Put a mold in its tool socket; it is never used up. A Sheet Mold (two steel plates round a steel ingot) makes two "
+    "plastic sheets from a plastic pellet, or three from PVC resin, where the Metal Press makes one and two. A Gasket "
+    "Mold (two steel ingots round a plate) makes four gaskets from a pellet and a piece of rubber, with no steel plate.",
+    "Each shot uses 50 mB of cooling water, piped into the inlet low on its left side. Stock goes in at the hopper on "
+    "top at the back; products leave at the guarded tray at the front. Power comes in at the junction box at the back.",
+]
+
 HANDBOOK["reagent_purification_station"] = [
     "Four wide, four deep and four tall: two purification columns and a conditioning chamber on an ivory wet-services "
     "bed, built from a Chemical Reactor, two Steel Tanks, steel fluid pipe, steel plates and a basic circuit. Every "
@@ -891,6 +936,20 @@ FORM_TANK_NAMES = {
 # third value. The quantities and times are the owner's selected starter baseline
 # (docs/features/industrial-starter-gas-and-acid-factory.md, eighth batch, question 9).
 FORM_RECIPES = {
+    "polymer_molding_press": [
+        # Sheets molded hot, not pressed cold: twice the Metal Press's sheets from a pellet and three from PVC resin
+        # (the press makes one and two), 50 mB of cooling water a shot. For review.
+        {"name": "molding_plastic_sheet", "capability": POLYMER_MOLDING, "tool": f"{MOD}:sheet_mold",
+         "items": [(f"{MOD}:plastic_pellets", 1)], "fluids": [("minecraft:water", 50)],
+         "results": [(f"{MOD}:plastic_sheet", 2)], "ticks": 40, "features": ["machines", "crude_oil"]},
+        {"name": "molding_pvc_sheet", "capability": POLYMER_MOLDING, "tool": f"{MOD}:sheet_mold",
+         "items": [(f"{MOD}:pvc_resin", 1)], "fluids": [("minecraft:water", 50)],
+         "results": [(f"{MOD}:plastic_sheet", 3)], "ticks": 40, "features": ["machines", "salt"]},
+        # Gaskets molded from a pellet and a piece of rubber, where crafting needs two rubber and a steel plate for four.
+        {"name": "molding_gasket", "capability": POLYMER_MOLDING, "tool": f"{MOD}:gasket_mold",
+         "items": [(f"{MOD}:plastic_pellets", 1), (f"{MOD}:rubber", 1)], "fluids": [("minecraft:water", 50)],
+         "results": [(f"{MOD}:gasket", 4)], "ticks": 60, "features": ["machines", "crude_oil"]},
+    ],
     "reagent_purification_station": [
         # Concentration: half the water boiled off ordinary acid, which comes back out as water. 200 ticks at 96 JE/t,
         # 19,200 JE a bucket. For review.
@@ -1697,6 +1756,62 @@ def bulk_electrolytic_separator():
     keeps its size at the front left. Each port's pieces sit at the middle of a block face."""
     return _doubled(electrolytic_separator(), lambda e: e[0][0] >= 5.2 and e[1][2] <= 7.1 and e[1][1] <= 15.1,
                     BULK_SEPARATOR_PORT_SHIFTS)
+
+
+def polymer_molding_press():
+    """Two wide, three deep and three tall (the art brief, docs/features/industrial-machine-models-and-textures.md): on
+    an olive base, a horizontal mold chamber between a thick fixed front platen and a sliding middle platen, carried
+    with the rear platen on four bright steel tie bars; behind them the heated ringed barrel with its amber heater band,
+    fed by the olive hopper on top at the back left. At the front: the guarded product tray low on the right, the
+    tool-change handle on the fixed platen and the recessed control box (the controller) at the front left. The side
+    drive sits on the right; the cooling-water inlet comes in low on the left, and power at the junction box at the
+    back. Each port is at the middle of its block's face."""
+    m = [box((-16, 0, 0), (16, 3, 48), GUNMETAL)]
+    m.append(box((-15, 3, 2), (15, 10, 46), {"*": OLIVE, "up": GUNMETAL}))
+    # The three platens on four tie bars, the fixed one at the front, the sliding one between, the rear one anchoring.
+    m.append(box((-13, 10, 8), (13, 35, 12), GUNMETAL))
+    m.append(box((-12, 11, 22), (12, 34, 26), GUNMETAL))
+    m.append(box((-13, 10, 32), (13, 35, 35), GUNMETAL))
+    for x in (-9, 9):
+        for y in (14, 31):
+            m += cyl("z", x, y, 1.5, 7, 36, CHROME)
+            m += cyl("z", x, y, 2.25, 6.5, 7.5, GUNMETAL)
+    # The mold chamber between the fixed and sliding platens: the mold's two halves, with a seam of the cavity.
+    m.append(box((-8, 14, 12), (8, 31, 17), CHROME))
+    m.append(box((-8, 14, 17), (8, 31, 22), {"*": CHROME, "up": GUNMETAL}))
+    m.append(box((-8.5, 21.5, 16.75), (8.5, 23.5, 17.25), RUBBER))
+    # The heated ringed barrel behind the rear platen, its amber heater band, and the hopper over it at the back left.
+    m += cyl("z", 0, 22, 4, 35, 46, GUNMETAL)
+    for z in (37, 44):
+        m += cyl("z", 0, 22, 4.75, z, z + 1, GUNMETAL)
+    m += cyl("z", 0, 22, 4.5, 40, 41.5, STRIP)
+    m.append(box((-11, 26, 38), (-5, 32, 44), OLIVE))
+    m.append(box((-13, 32, 36), (-3, 40, 46), OLIVE))
+    m.append(box((-14, 40, 34), (-2, 47.5, 47), OLIVE))
+    for lo, hi in (((-14.5, 46.5, 33.5), (-1.5, 47.75, 34.5)), ((-14.5, 46.5, 46.5), (-1.5, 47.75, 47.5))):
+        m.append(box(lo, hi, HAZARD))
+    m.append(box((-13, 47.5, 35), (-3, 48, 46), MOUTH))
+    # The guarded product tray low on the front right, and the tool-change handle on the fixed platen.
+    m.append(box((-14, 4, 0.5), (-2, 12, 8), GUNMETAL))
+    m.append(box((-13, 5, 0.25), (-3, 11, 0.5), {"*": GUNMETAL, "north": MOUTH}))
+    m.append(box((-14.5, 12, 0.5), (-1.5, 13, 8), HAZARD))
+    m.append(box((10, 18, 6.5), (12, 28, 8), CHROME))
+    m.append(box((9.5, 17.5, 7.5), (12.5, 18.5, 8), GUNMETAL))
+    # The recessed control box (the controller) at the front left: a gauge and the amber running lamp.
+    m.append(box((2, 3, 1), (14, 15, 7), {"*": OLIVE, "north": GUNMETAL, "up": STENCIL}))
+    m.append(dial("north", (8, 11, 0.75), 3.5, texture=GAUGE, body=CHROME))
+    m.append(dial("north", (8, 6, 0.75), 2.5, texture=LAMP, body=GUNMETAL))
+    # The side drive on the right: a motor with its grille and a belt guard to the barrel.
+    m.append(box((-16, 10, 26), (-13, 22, 38), {"*": OLIVE, "west": GRILLE}))
+    m.append(box((-13, 14, 36), (-4, 18, 40), GUNMETAL))
+    # The cooling-water inlet low on the left: a pipe and its flange.
+    m.append(box((13, 6, 22), (15.25, 10, 26), RUBBER))
+    m.append(box((15.25, 5, 21), (16, 11, 27), {"*": CHROME, "east": f"{FLANGE}!"}))
+    # The junction box at the back, its hazard band and the power socket.
+    m.append(box((4, 3, 38), (14, 13, 47.25), GUNMETAL))
+    m.append(box((3.75, 13, 37.75), (14.25, 14, 47.5), HAZARD))
+    m.append(box((5, 5, 47.25), (11, 11, 48), {"*": CHROME, "south": "power_port!"}))
+    return m
 
 
 # The Reagent Purification Station's materials (the art brief): cool ivory enamel, graphite frames, muted steel
@@ -2817,6 +2932,7 @@ ROTORS = {
 
 MODELS = {"electrolytic_separator": electrolytic_separator(), "bulk_electrolytic_separator": bulk_electrolytic_separator(),
           "reagent_purification_station": reagent_purification_station(),
+          "polymer_molding_press": polymer_molding_press(),
           "gas_burning_generator": gas_burning_generator(),
           "chemical_infuser": chemical_infuser(), "bulk_chemical_infuser": bulk_chemical_infuser(),
           "chemical_oxidizer": chemical_oxidizer(), "bulk_chemical_oxidizer": bulk_chemical_oxidizer(),
@@ -2848,6 +2964,18 @@ def write_all(write, assets, data, lang, condition, self_drop):
         for role, name in names.items():
             lang[f"container.{MOD}.form.{form}.tank.{role}"] = name
     lang[f"container.{MOD}.form.socket.bed"] = "Catalyst bed"
+    lang[f"container.{MOD}.form.socket.mold"] = "Mold"
+    # The Molding Press's reusable molds (this change's bills, for review): steel plates round a steel ingot, the
+    # sheet mold flat and the gasket mold with its ring core.
+    write(data / "tags" / "item" / f"{MOLDS}.json", {"values": [f"{MOD}:sheet_mold", f"{MOD}:gasket_mold"]})
+    write(data / "recipe" / "sheet_mold.json", {
+        "fabric:load_conditions": condition("machines"),
+        "type": "minecraft:crafting_shaped", "category": "misc", "pattern": ["PIP"],
+        "key": {"P": "#c:plates/steel", "I": "#c:ingots/steel"}, "result": {"id": f"{MOD}:sheet_mold", "count": 1}})
+    write(data / "recipe" / "gasket_mold.json", {
+        "fabric:load_conditions": condition("machines"),
+        "type": "minecraft:crafting_shaped", "category": "misc", "pattern": ["IPI"],
+        "key": {"P": "#c:plates/steel", "I": "#c:ingots/steel"}, "result": {"id": f"{MOD}:gasket_mold", "count": 1}})
     # The Infuser's bed socket holds the nickel catalyst bed: the owner's selected one nickel ingot on two ordinary fired
     # bricks (docs/features/industrial-starter-gas-and-acid-factory.md), made once and never used up.
     write(data / "tags" / "item" / f"{CATALYST_BEDS}.json", {"values": [f"{MOD}:nickel_catalyst_bed", f"{MOD}:vanadium_contact_bed",
