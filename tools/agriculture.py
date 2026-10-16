@@ -1517,10 +1517,13 @@ def cider_items():
 # jar. Fresh from the pot a jar is unsealed and spoils `spoil_ticks` after it was cooked (a spoiled serving: 1 food,
 # Hunger and Nausea). The Canning Kettle (CanningKettleBlock + entity) holds water and up to `kettle_jars` full jars; over
 # heat its water boils after `boil_ticks`, and a jar in boiling water for `process_ticks` is sealed (component
-# jugcraft:sealed): it keeps until opened, when its days start. The Pantry Shelf (PantryShelfBlock + entity) shows up to
+# jugcraft:sealed): it keeps until opened, when its days start. A preservative (item tag `preservative_tag`: citric acid,
+# docs/features/citric-preserves.md) clicked onto an unspoiled jar is stirred in (component jugcraft:preserved, one a jar):
+# the jar then keeps `preserved_factor` times as long, unsealed or once opened. The Pantry Shelf (PantryShelfBlock + entity) shows up to
 # `shelf_slots` jars. `color`: what is in the jar, for the item textures and the renderers.
 PANTRY = {"jar": "mason_jar", "jar_display": "Mason Jar", "vinegar": "cider_vinegar", "vinegar_display": "Cider Vinegar",
           "kettle": "canning_kettle", "kettle_display": "Canning Kettle", "shelf": "pantry_shelf", "shelf_display": "Pantry Shelf",
+          "preservative_tag": "jugcraft:preservatives", "preservatives": ["jugcraft:citric_acid"], "preserved_factor": 2,
           "servings": 4, "spoil_ticks": 72000, "kettle_jars": 4, "boil_ticks": 200, "process_ticks": 400, "shelf_slots": 6,
           "preserves": {
               "sweet_berry_jam": {"display": "Sweet Berry Jam", "food": [3, 0.4], "effect": None, "color": 0x9A1E3A, "kind": "sweet"},

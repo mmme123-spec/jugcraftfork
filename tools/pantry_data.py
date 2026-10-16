@@ -45,6 +45,7 @@ TEXT = {
     "tooltip.jugcraft.preserves.unsealed": "Not sealed: spoils three days after it was cooked. Seal it in a Canning Kettle",
     "tooltip.jugcraft.preserves.opened": "Opened: spoils three days after it was opened",
     "tooltip.jugcraft.preserves.servings": "%s of %s servings",
+    "tooltip.jugcraft.preserves.preserved": "Citric acid stirred in: keeps twice as long",
     "tooltip.jugcraft.preserves.spoiled_eaten": "Ugh! That jar had gone off",
     "message.jugcraft.canning_kettle.no_water": "Fill the kettle with water first",
     "message.jugcraft.canning_kettle.jars_in": "Take the jars out before you pour the water away",
@@ -97,3 +98,5 @@ def tags(tags):
     tags.add("block", "minecraft:mineable/axe", rid(PANTRY["shelf"]))
     for preserve in PANTRY["preserves"]:
         tags.add("item", "c:foods", rid(preserve))
+    for item in PANTRY["preservatives"]:
+        tags.add("item", PANTRY["preservative_tag"], item)

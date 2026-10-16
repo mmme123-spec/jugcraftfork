@@ -1,11 +1,15 @@
 package io.github.jimbozoomer.jugcraft.agriculture;
 
+import io.github.jimbozoomer.jugcraft.Jugcraft;
 import java.util.function.Consumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
@@ -13,6 +17,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -31,11 +37,16 @@ import org.jspecify.annotations.Nullable;
  * <li>Processed in a boiling Canning Kettle it is sealed ({@code jugcraft:sealed}): it keeps for ever, stacks with other
  * sealed jars of the same kind, and may go on a Pantry Shelf like any jar.</li>
  * <li>Opening a sealed jar (eating its first serving) starts its three days.</li>
+ * <li>A preservative (item tag {@code jugcraft:preservatives}: citric acid) clicked onto an unspoiled jar is stirred in
+ * ({@code jugcraft:preserved}, one a jar): the jar then keeps {@value #PRESERVED_FACTOR} times as long, unsealed or
+ * once opened.</li>
  * </ul>
  */
 public class PreserveJarItem extends Item {
 	public static final int SERVINGS = 4;
 	public static final int SPOIL_TICKS = 72000;
+	public static final int PRESERVED_FACTOR = 2;
+	public static final TagKey<Item> PRESERVATIVES = TagKey.create(Registries.ITEM, Jugcraft.id("preservatives"));
 	private static final int EAT_TICKS = 32;
 	private static final String TOOLTIP = "tooltip.jugcraft.preserves.";
 
@@ -65,10 +76,47 @@ public class PreserveJarItem extends Item {
 		return sealed(stack) || contents == null ? SERVINGS : contents.servings();
 	}
 
-	/** Whether the jar has spoiled at game time {@code now}: unsealed, and made more than three days before. */
+	public static boolean preserved(ItemStack stack) {
+		return Boolean.TRUE.equals(stack.get(JugcraftAgriculture.PRESERVED));
+	}
+
+	/** How long an unsealed or opened jar keeps: three days, or twice that with a preservative stirred in. */
+	public static long keeps(ItemStack stack) {
+		return (long) SPOIL_TICKS * (preserved(stack) ? PRESERVED_FACTOR : 1);
+	}
+
+	/** Whether the jar has spoiled at game time {@code now}: unsealed, and made longer ago than it {@link #keeps}. */
 	public static boolean spoiled(ItemStack stack, long now) {
 		JarContents contents = stack.get(JugcraftAgriculture.JAR_CONTENTS);
-		return !sealed(stack) && contents != null && now - contents.made() > SPOIL_TICKS;
+		return !sealed(stack) && contents != null && now - contents.made() > keeps(stack);
+	}
+
+	/**
+	 * Stirs a preservative into every jar of {@code jars} at game time {@code now}, one preservative a jar, taken from
+	 * {@code preservative}; returns whether it did. A spoiled jar or one already preserved is left, and so is a stack
+	 * the preservative can't cover.
+	 */
+	public static boolean preserve(ItemStack jars, ItemStack preservative, long now) {
+		if (!(jars.getItem() instanceof PreserveJarItem) || !preservative.is(PRESERVATIVES) || preserved(jars) || spoiled(jars, now)
+				|| preservative.getCount() < jars.getCount()) {
+			return false;
+		}
+		jars.set(JugcraftAgriculture.PRESERVED, true);
+		preservative.shrink(jars.getCount());
+		return true;
+	}
+
+	/** Clicking a preservative onto a jar in an inventory stirs it in. */
+	@Override
+	public boolean overrideOtherStackedOnMe(ItemStack jars, ItemStack other, Slot slot, ClickAction action, Player player, SlotAccess access) {
+		if (other.isEmpty() || !other.is(PRESERVATIVES) || !slot.allowModification(player)) {
+			return false;
+		}
+		if (!preserve(jars, other, player.level().getGameTime())) {
+			return false;
+		}
+		player.playSound(SoundEvents.BOTTLE_FILL, 0.6F, 1.2F);
+		return true;
 	}
 
 	/** The game time an unsealed jar's three days started (now, for a sealed jar being opened or one never stamped). */
@@ -167,6 +215,9 @@ public class PreserveJarItem extends Item {
 			tooltip.accept(Component.translatable(TOOLTIP + "opened").withStyle(ChatFormatting.GOLD));
 		} else {
 			tooltip.accept(Component.translatable(TOOLTIP + "unsealed").withStyle(ChatFormatting.GOLD));
+		}
+		if (preserved(stack)) {
+			tooltip.accept(Component.translatable(TOOLTIP + "preserved").withStyle(ChatFormatting.YELLOW));
 		}
 		tooltip.accept(Component.translatable(TOOLTIP + "servings", servings(stack), SERVINGS).withStyle(ChatFormatting.GRAY));
 	}

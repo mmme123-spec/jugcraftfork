@@ -7460,7 +7460,8 @@ def check_pantry(java, main):
     def numbers(source, names):
         return {name: int(value) for name, value in re.findall(rf"int ({names}) = (\d+);", java.get(source, ""))}
 
-    for source, expected in (("PreserveJarItem", {"SERVINGS": pantry["servings"], "SPOIL_TICKS": pantry["spoil_ticks"]}),
+    for source, expected in (("PreserveJarItem", {"SERVINGS": pantry["servings"], "SPOIL_TICKS": pantry["spoil_ticks"],
+                                                   "PRESERVED_FACTOR": pantry["preserved_factor"]}),
                              ("CanningKettleBlockEntity", {"JARS": pantry["kettle_jars"], "BOIL_TICKS": pantry["boil_ticks"],
                                                            "PROCESS_TICKS": pantry["process_ticks"]}),
                              ("PantryShelfBlockEntity", {"SLOTS": pantry["shelf_slots"]})):
@@ -7480,6 +7481,9 @@ def check_pantry(java, main):
         model = (load(ASSETS / "items" / f"{preserve}.json") or {}).get("model", {})
         if model.get("type") != "minecraft:condition" or model.get("component") != "jugcraft:sealed":
             err(f"{preserve}: its item model must show the sealed jar (a condition on jugcraft:sealed)")
+    tag = pantry["preservative_tag"].split(":")
+    if (load(DATA / tag[0] / "tags" / "item" / f"{tag[1]}.json") or {}).get("values") != pantry["preservatives"]:
+        err(f"Item tag {pantry['preservative_tag']} differs from PANTRY in tools/agriculture.py")
     if pantry["vinegar"] not in ag.POT_RECIPES:
         err("Cider vinegar must be cooked in the Cooking Pot")
     if f'registerItem("{pantry["vinegar"]}", Item::new, new Item.Properties().craftRemainder(Items.GLASS_BOTTLE)' not in main:

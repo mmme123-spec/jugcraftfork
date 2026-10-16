@@ -416,6 +416,8 @@ public final class JugcraftAgriculture {
 	public static BlockEntityType<PantryShelfBlockEntity> PANTRY_SHELF_ENTITY;
 	/** A jar of preserves sealed in a Canning Kettle: it keeps for ever (its item model shows a cloth cap). */
 	public static DataComponentType<Boolean> SEALED;
+	/** A preservative stirred into a jar of preserves ({@link PreserveJarItem#preserve}). */
+	public static DataComponentType<Boolean> PRESERVED;
 	/** What is left in an unsealed jar of preserves, and when it was cooked or opened. */
 	public static DataComponentType<JarContents> JAR_CONTENTS;
 	/** The outfits of decorations batch 14, worn on the head and drawn over the whole body (the client's CostumeLayer). */
@@ -1871,6 +1873,8 @@ public final class JugcraftAgriculture {
 		// Fall additions 3, the preserves pantry: Mason Jars, cider vinegar, preserves cooked into jars in the Cooking Pot, the
 		// Canning Kettle that seals them and the Pantry Shelf that shows them off.
 		SEALED = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Jugcraft.id("sealed"),
+				DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+		PRESERVED = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Jugcraft.id("preserved"),
 				DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 		JAR_CONTENTS = Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, Jugcraft.id("jar_contents"),
 				DataComponentType.<JarContents>builder().persistent(JarContents.CODEC).networkSynchronized(JarContents.STREAM_CODEC).build());
