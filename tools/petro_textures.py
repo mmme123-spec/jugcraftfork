@@ -205,6 +205,44 @@ def gasification_residue():
     return img
 
 
+def corn_starch():
+    """Corn starch: a small heap of fine creamy-white powder, warmer than alumina's grey-white."""
+    return ms.dust([(150, 134, 100), (196, 182, 146), (224, 214, 184), (240, 234, 212), (252, 250, 238)])
+
+
+def glucose_syrup():
+    """Glucose syrup: a squat glass jar of amber syrup with a cork lid, centred, lit from the top left and outlined in
+    each part's own dark (docs/ITEM_ICONS.md)."""
+    tones = {"a": (82, 52, 28), "C": (204, 158, 102), "c": (164, 120, 72),
+             "O": (96, 60, 20), "H": (255, 242, 206), "G": (222, 228, 228), "g": (172, 180, 182),
+             "Y": (248, 200, 84), "y": (228, 160, 40), "t": (178, 110, 22)}
+    rows = [
+        "................",
+        "................",
+        ".....aaaaaa.....",
+        ".....aCCcca.....",
+        ".....aaaaaa.....",
+        "....OOOOOOOO....",
+        "...OHGGGGGGgO...",
+        "...OHYYyyyytO...",
+        "...OHYyyyyytO...",
+        "...OHYyyyyytO...",
+        "...OHyyyyyttO...",
+        "...OHyyyyyttO...",
+        "...OyyyyytttO...",
+        "...OOOOOOOOOO...",
+        "................",
+        "................",
+    ]
+    img = Image.new("RGBA", (16, 16), (0, 0, 0, 0))
+    for y, row in enumerate(rows):
+        assert len(row) == 16, row
+        for x, ch in enumerate(row):
+            if ch in tones:
+                img.putpixel((x, y), tones[ch] + (255,))
+    return img
+
+
 def ammonium_nitrate():
     """Ammonium nitrate: a heap of small round white prills, lit from the top left and outlined in their own darkest
     tone (docs/ITEM_ICONS.md)."""
@@ -605,6 +643,8 @@ def draw_all(save, save_animation):
     save(vanadium_contact_bed(), "item", "vanadium_contact_bed")
     save(gasification_residue(), "item", "gasification_residue")
     save(ammonium_nitrate(), "item", "ammonium_nitrate")
+    save(corn_starch(), "item", "corn_starch")
+    save(glucose_syrup(), "item", "glucose_syrup")
     save(guncotton(), "item", "guncotton")
     save(grenade(), "item", "grenade")
     save(grenade_launcher(), "item", "grenade_launcher")

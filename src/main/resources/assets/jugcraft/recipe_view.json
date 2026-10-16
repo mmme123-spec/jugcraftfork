@@ -2251,6 +2251,20 @@
           ],
           "extra": [],
           "ticks": 100
+        },
+        {
+          "in": [
+            [
+              "jugcraft:corn",
+              1
+            ]
+          ],
+          "out": [
+            "jugcraft:corn_starch",
+            1
+          ],
+          "extra": [],
+          "ticks": 100
         }
       ]
     },
@@ -6337,6 +6351,33 @@
           "retained_inputs": [
             2
           ]
+        },
+        {
+          "items": [
+            [
+              "jugcraft:corn_starch",
+              2
+            ]
+          ],
+          "fluids": [
+            [
+              "minecraft:water",
+              500
+            ],
+            [
+              "jugcraft:hydrochloric_acid",
+              50
+            ]
+          ],
+          "fluid_results": [],
+          "results": [
+            [
+              "jugcraft:glucose_syrup",
+              3
+            ]
+          ],
+          "ticks": 120,
+          "retained_inputs": []
         },
         {
           "items": [

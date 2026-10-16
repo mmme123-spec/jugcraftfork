@@ -1,0 +1,20 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "agriculture"
+    },
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "machines"
+    }
+  ],
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": "jugcraft:glucose_syrup",
+  "result": {
+    "id": "minecraft:sugar"
+  },
+  "experience": 0.1,
+  "cookingtime": 100
+}

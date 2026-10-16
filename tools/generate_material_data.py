@@ -1301,6 +1301,16 @@ def recipes():
         write(out / f"{name}.json", recipe)
     drone_recipes(out)
 
+    # Glucose syrup (docs/features/glucose-syrup.md) boils down to sugar in a furnace or smoker.
+    syrup = [c for f in ("agriculture", MACHINE_FEATURE) for c in condition(f)]
+    for kind in ("smelting", "smoking"):
+        recipe = cooking(MACHINE_FEATURE, "smelting", rid("glucose_syrup"), "sugar", 0.1)
+        recipe["type"] = f"minecraft:{kind}"
+        recipe["result"]["id"] = "minecraft:sugar"
+        recipe["cookingtime"] = 100
+        recipe["fabric:load_conditions"] = syrup
+        write(out / f"sugar_from_glucose_syrup_{kind}.json", recipe)
+
     # Explosive weapons (batch 18): grenades and the launcher, behind the explosives switch.
     boom = [c for f in (MACHINE_FEATURE, "explosives") for c in condition(f)]
     for name, recipe in (

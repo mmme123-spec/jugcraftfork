@@ -206,6 +206,10 @@ ITEMS = {
     # Nitric acid neutralized with ammonia in the Bulk Chemical Reactor (tools/industrial_forms.py): a nitrogen
     # fertilizer (chemistry/FertilizerItem, three doses), and the explosive filling of grenades and HE rockets.
     "ammonium_nitrate": "Ammonium Nitrate",
+    # Glucose syrup (docs/features/glucose-syrup.md): corn ground to starch in the Pulverizer, then broken down with a
+    # little hydrochloric acid in the Chemical Reactor. The syrup boils down to sugar.
+    "corn_starch": "Corn Starch",
+    "glucose_syrup": "Glucose Syrup",
 }
 
 
@@ -386,6 +390,11 @@ FLUID_RECIPES = {
          "fluid_results": [("jugcraft:hydrochloric_acid", 1000)], "ticks": 100, "features": ["machines"]},
         {"name": "absorb_sulfur_trioxide", "fluids": [("minecraft:water", 250), ("jugcraft:sulfur_trioxide", 250), ("jugcraft:sulfuric_acid", 1000)],
          "retained_inputs": [2], "fluid_results": [("jugcraft:sulfuric_acid", 500)], "ticks": 100, "features": ["machines", "sulfur"]},
+        # Glucose syrup (docs/features/glucose-syrup.md): starch broken down in hot water with a splash of hydrochloric
+        # acid. Quantities for review.
+        {"name": "glucose_syrup", "items": [("jugcraft:corn_starch", 2)],
+         "fluids": [("minecraft:water", 500), ("jugcraft:hydrochloric_acid", 50)],
+         "results": [("jugcraft:glucose_syrup", 3)], "ticks": 120, "features": ["agriculture", "machines"]},
         {"name": "hydrochloric_copper", "items": [("minecraft:raw_copper", 1)], "fluids": [("jugcraft:hydrochloric_acid", 250)],
          "results": [("jugcraft:washed_copper_ore", 1)], "ticks": 160, "features": ["machines"]},
         {"name": "sulfuric_acid", "items": [("jugcraft:sulfur_dust", 2)], "fluids": [("minecraft:water", 1000)],

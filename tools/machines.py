@@ -797,6 +797,9 @@ def _pulverizer():
                         "features": features, "byproducts": [_byproduct(metal)]})
         recipes.append({"input": raw_id(metal), "output": dust, "count": 1, "ticks": 100, "features": features})
         recipes.append({"input": ingot_id(metal), "output": dust, "count": 1, "ticks": 100, "features": features})
+    # Glucose syrup (docs/features/glucose-syrup.md): corn ground to starch for the Chemical Reactor.
+    recipes.append({"input": "jugcraft:corn", "output": "jugcraft:corn_starch", "count": 1, "ticks": 100,
+                    "features": [FEATURE, "agriculture"]})
     return recipes
 
 
