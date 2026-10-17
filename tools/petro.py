@@ -619,3 +619,8 @@ ITEMS.update({k: v for k, v in FLUORO_ITEMS.items() if k not in ITEMS})
 FLUIDS["liquid_methane"] = {"display": "Liquid Methane", "feature": "machines",
                             "colors": [(96, 112, 120), (138, 154, 162), (182, 196, 202), (226, 234, 238)],
                             "tick_delay": 3, "slope": 4, "drop_off": 1}
+# Liquid hydrogen (docs/features/hydrolox.md): hydrogen condensed in the cryogenic liquefier, the best rocket fuel.
+# Last, for the same reason.
+FLUIDS["liquid_hydrogen"] = {"display": "Liquid Hydrogen", "feature": "machines",
+                             "colors": [(120, 136, 168), (160, 176, 206), (200, 212, 234), (236, 242, 252)],
+                             "tick_delay": 3, "slope": 4, "drop_off": 1}

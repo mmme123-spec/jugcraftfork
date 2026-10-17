@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "machines"
+    },
+    {
+      "condition": "jugcraft:feature_enabled",
+      "feature": "salt"
+    }
+  ],
+  "type": "jugcraft:liquefaction",
+  "fluids": [
+    {
+      "fluid": "jugcraft:hydrogen",
+      "amount": 1000
+    }
+  ],
+  "fluid_results": [
+    {
+      "fluid": "jugcraft:liquid_hydrogen",
+      "amount": 125
+    }
+  ],
+  "time": 160
+}

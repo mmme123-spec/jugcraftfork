@@ -57,6 +57,8 @@ ITEMS = {
     "lox_tank": "Liquid Oxygen Tank",
     # Methane/LOX (docs/features/methalox.md): liquefied methane, the fuel without crude oil.
     "methane_tank": "Liquid Methane Tank",
+    # Hydrogen/LOX (docs/features/hydrolox.md): liquefied hydrogen, the hardest gas to condense and the best fuel.
+    "hydrogen_tank": "Liquid Hydrogen Tank",
 }
 ROCKETS = ["survey_rocket", "cloud_seeding_rocket", "clear_sky_rocket", "signal_flare", "illumination_flare"]
 TOOLTIPS = {
@@ -80,6 +82,7 @@ TOOLTIPS = {
     "kerosene_tank": "A rocket casing filled with RP-1 kerosene, the fuel of a liquid rocket motor.",
     "lox_tank": "A rocket casing filled with liquid oxygen, the oxidizer of a liquid rocket motor.",
     "methane_tank": "A rocket casing filled with liquid methane, a cleaner-burning fuel for a liquid rocket motor.",
+    "hydrogen_tank": "A rocket casing filled with liquid hydrogen, the most efficient fuel for a liquid rocket motor.",
     "homing_rocket": "Rocket launcher ammunition: locks on to the hostile mob nearest your crosshair within 48 blocks "
                      "and steers into it. A smaller blast.",
 }
@@ -152,6 +155,10 @@ def workshop_recipes():
         {"name": "methalox_rocket_motor",
          "inputs": [[rid("methane_tank"), 1], [rid("lox_tank"), 1], [rid("rocket_nozzle"), 2]],
          "output": rid("rocket_motor"), "count": 4, "ticks": 200, "features": feature},
+        # Hydrogen/LOX (docs/features/hydrolox.md): the most efficient pair loads five motors.
+        {"name": "hydrolox_rocket_motor",
+         "inputs": [[rid("hydrogen_tank"), 1], [rid("lox_tank"), 1], [rid("rocket_nozzle"), 2]],
+         "output": rid("rocket_motor"), "count": 5, "ticks": 200, "features": feature + ["salt"]},
         {"inputs": [[rid("rocket_motor"), 1], [rid("guidance_unit"), 1], [rid("sensor"), 1]],
          "output": rid("survey_rocket"), "count": 1, "ticks": 300, "features": feature},
         {"inputs": [[rid("rocket_motor"), 1], [rid("silver_iodide"), 2]],
@@ -189,6 +196,10 @@ LIQUEFIER_RECIPES = [
     # Methane condensed at -162 C (docs/features/methalox.md), at the same four-to-one as oxygen.
     {"name": "liquid_methane", "fluids": [("jugcraft:methane", 1000)], "fluid_results": [("jugcraft:liquid_methane", 250)],
      "ticks": 80, "features": ["machines"]},
+    # Hydrogen condensed at -253 C (docs/features/hydrolox.md): the hardest, eight parts of gas to one of liquid and
+    # twice as long.
+    {"name": "liquid_hydrogen", "fluids": [("jugcraft:hydrogen", 1000)], "fluid_results": [("jugcraft:liquid_hydrogen", 125)],
+     "ticks": 160, "features": ["machines", "salt"]},
 ]
 # Hydrocracking in the catalytic cracker: heavy fuel oil and hydrogen (in the water tank) over the catalyst give RP-1
 # kerosene (the naphtha tank) and a little refinery gas.
@@ -206,6 +217,8 @@ TANK_RECIPES = [
      "results": [("jugcraft:lox_tank", 1)], "ticks": 60, "features": ["machines"]},
     {"name": "methane_tank", "items": [("jugcraft:rocket_casing", 1)], "fluids": [("jugcraft:liquid_methane", 1000)],
      "results": [("jugcraft:methane_tank", 1)], "ticks": 60, "features": ["machines"]},
+    {"name": "hydrogen_tank", "items": [("jugcraft:rocket_casing", 1)], "fluids": [("jugcraft:liquid_hydrogen", 1000)],
+     "results": [("jugcraft:hydrogen_tank", 1)], "ticks": 60, "features": ["machines", "salt"]},
 ]
 
 # Chemical reactor recipes (tools/petro.py FLUID_RECIPES["chemical_reactor"]).
@@ -537,7 +550,7 @@ HD_ITEMS = {"survey_rocket": survey_rocket, "cloud_seeding_rocket": cloud_seedin
             "line_rocket": lambda: line_rocket(), "rocket_launcher": lambda: rocket_launcher(),
             "he_rocket": lambda: he_rocket(), "homing_rocket": lambda: homing_rocket(),
             "kerosene_tank": lambda: propellant_tank(False), "lox_tank": lambda: propellant_tank(True),
-            "methane_tank": lambda: methane_tank()}
+            "methane_tank": lambda: methane_tank(), "hydrogen_tank": lambda: hydrogen_tank()}
 
 
 def propellant_tank(oxygen):
@@ -560,10 +573,21 @@ def methane_tank():
     """Liquid methane tank (docs/features/methalox.md), 16x16 in the owner's manner (docs/ITEM_ICONS.md): the propellant
     tanks' upright steel casing with an olive band, a red fuel valve on top and frost on its sides, lit from the top
     left and outlined in each part's own dark."""
+    return _cryogenic_tank((50, 59, 32), (156, 170, 110), (110, 124, 72))
+
+
+def hydrogen_tank():
+    """Liquid hydrogen tank (docs/features/hydrolox.md): the methane tank's casing with an insulating-foam orange band."""
+    return _cryogenic_tank((112, 46, 10), (238, 150, 70), (204, 104, 36))
+
+
+def _cryogenic_tank(band_dark, band_light, band_mid):
+    """A 16x16 cryogenic fuel tank: an upright steel casing with a coloured band (its own dark, light and mid), a red
+    fuel valve on top and frost on its sides."""
     from PIL import Image
     tones = {"O": (52, 56, 66), "H": (232, 236, 240), "L": (196, 202, 210), "M": (150, 158, 170),
              "D": (104, 112, 124), "S": (90, 96, 108), "R": (110, 24, 20), "r": (210, 64, 52),
-             "g": (50, 59, 32), "G": (156, 170, 110), "m": (110, 124, 72), "W": (250, 252, 255)}
+             "g": band_dark, "G": band_light, "m": band_mid, "W": (250, 252, 255)}
     rows = [
         "................",
         "......RRRR......",
