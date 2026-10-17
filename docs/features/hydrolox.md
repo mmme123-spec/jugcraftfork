@@ -57,7 +57,7 @@ No texture is copied.
 
 ### Results
 
-Not yet run in CI.
+Fork Build run [38996192333](https://github.com/mmme123-spec/jugcraftfork/actions/runs/38996192333) on commit `dcf725f5` passed on its second attempt. That covers the mod job (compilation and every server game test, this change's included), the optional-integrations-absent job and all eight rendered-client shards. The first attempt's client shard 2 hit the 60-minute job time limit before finishing; every other job passed then. No human gameplay or multiplayer test was run.
 
 ## Rollout and open questions
 
