@@ -1,22 +1,54 @@
-/* The Concordance Journal's GuiLib workspace (src/client/kotlin/.../JournalWorkspace.kt). Light text on a dark
-   panel, a visible focus ring on every control, and no motion with the Concordance's reduced-motion setting. */
-:root { --guilib-accent: #9b86d6; }
-body { display: flex; align-items: center; justify-content: center; }
-.journal {
-  width: min(440px, 94vw); height: 90vh; padding: 8px; display: flex; flex-direction: column;
-  background-color: #141419; border: 1px solid #6f5ba8; border-radius: 4px; color: #f2f0f8;
+/* The Concordance Journal's GuiLib workspace (src/client/kotlin/.../JournalWorkspace.kt), in the Concordance's arcane look
+   (docs/features/themed-screens.md): Minecraft's own font on a star-chart page framed in gold, with a faint sigil and gilt
+   corner stars (textures/gui/concordance/, drawn by tools/ui_kit.py). Light text on a dark page, a visible focus ring on
+   every control, and no motion with the Concordance's reduced-motion setting. */
+:root {
+  --guilib-accent: #a878ff; --guilib-text: #f2ecff; --guilib-text-muted: #b9aee0; --guilib-text-strong: #fff6d6;
+  --guilib-track: #1a1330; --guilib-track-border: #5c4a96; --guilib-thumb: #f6da8c; --guilib-border-strong: #cea652;
+  --guilib-focus: #ffd98a; --guilib-scrollbar-thumb: #8f74d8; --guilib-scrollbar-track: #120c24;
 }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-.header h2 { color: #ffd98a; margin: 0; }
+body { display: flex; align-items: center; justify-content: center; font-family: minecraft; }
+.journal {
+  width: min(440px, 94vw); height: 90vh; padding: 10px 12px; display: flex; flex-direction: column;
+  background: url("jugcraft:textures/gui/concordance/corner_star.png") left 1px top 1px / 9px no-repeat,
+    url("jugcraft:textures/gui/concordance/corner_star.png") right 1px top 1px / 9px no-repeat,
+    url("jugcraft:textures/gui/concordance/corner_star.png") left 1px bottom 1px / 9px no-repeat,
+    url("jugcraft:textures/gui/concordance/corner_star.png") right 1px bottom 1px / 9px no-repeat,
+    url("jugcraft:textures/gui/concordance/sigil.png") right 14px bottom 34px / 128px no-repeat,
+    url("jugcraft:textures/gui/concordance/star_page.png") 0 0 / 128px;
+  background-color: #18122e;
+  border: 2px solid #cea652;
+  box-shadow: 0 0 0 1px #0a0614, 0 4px 14px #000000b0;
+  color: #f2ecff;
+}
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 5px; margin-bottom: 5px; border-bottom: 1px solid #7a5a22;
+}
+.header h2 { color: #ffd98a; margin: 0; font-size: 8px; text-shadow: 1px 1px #2a1a06; }
 .actions { display: flex; gap: 6px; align-items: center; }
-.refresh { padding: 2px 6px; background-color: #2a2833; border: 1px solid #6f5ba8; border-radius: 3px; color: #f2f0f8; }
-.refresh:hover { background-color: #3a3547; }
+.guilib-switch { color: #d9cff5; }
+.refresh {
+  padding: 3px 7px; background-color: #34245e; border: 1px solid #cea652; border-radius: 0;
+  color: #f2ecff; box-shadow: 0 0 0 1px #0a0614; text-shadow: 1px 1px #120a24;
+}
+.refresh:hover { background-color: #4b3486; border-color: #f6da8c; box-shadow: 0 0 0 1px #0a0614, 0 0 6px #a878ff80; }
+.refresh:active { background-color: #241844; }
 button:focus-visible, .guilib-tab:focus-visible, .guilib-switch:focus-visible { outline: 1px solid #ffd98a; outline-offset: 1px; }
-.sections { margin-bottom: 4px; }
-.lines { flex-grow: 1; min-height: 0; padding: 2px 4px; background-color: #1b1a22; border-radius: 3px; }
-.line { padding: 2px 0; line-height: 10px; }
+.sections { margin-bottom: 5px; }
+.sections > .guilib-tab-list { padding: 2px; background-color: #0c0818b0; border: 1px solid #4a3a7a; }
+.sections .guilib-tab { padding: 2px 8px; border-radius: 0; color: #b9aee0; }
+.sections .guilib-tab:hover { color: #f2ecff; }
+.sections .guilib-tab.active { color: #2a1a06; }
+.sections .guilib-tab-indicator { background-color: #cea652; border-radius: 0; box-shadow: 0 0 4px #ffd98a60; }
+.lines {
+  flex-grow: 1; min-height: 0; padding: 4px 6px;
+  background-color: #0c081899; border: 1px solid #3e2f6e;
+}
+.line { padding: 1px 0; line-height: 10px; text-shadow: 1px 1px #0a0614; }
 .line .exact { margin-left: 4px; }
-.status { color: #c9c3d8; flex-grow: 1; }
-.help { color: #c9c3d8; margin-top: 4px; font-size: 7px; }
+.status { color: #b9aee0; flex-grow: 1; }
+.help { color: #9c90c6; margin-top: 5px; }
 .reduced-motion .guilib-tab-indicator { transition: none; }
 .reduced-motion .guilib-switch-thumb { transition: none; }
+.reduced-motion .refresh { transition: none; }

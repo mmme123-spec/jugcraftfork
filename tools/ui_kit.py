@@ -220,3 +220,38 @@ def nine(img, src, box, border):
         if dw > 0 and dh > 0:
             piece = src.crop((sx0, sy0, sx1, sy1)).resize((dw, dh), Image.NEAREST)
             img.alpha_composite(piece, (dx, dy))
+
+
+def corner_star(size=9):
+    """A small four-pointed gilt star for the arcane frame's corners: a pale centre, gold arms, dark tips."""
+    p = ARCANE
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    c = size // 2
+    for r in range(c + 1):
+        tone = p["star"][2] if r == 0 else p["gold"][3] if r == 1 else p["gold"][2] if r < c else p["gold"][1]
+        for dx, dy in ((r, 0), (-r, 0), (0, r), (0, -r)):
+            img.putpixel((c + dx, c + dy), tone + (255,))
+    for dx, dy in ((1, 1), (-1, 1), (1, -1), (-1, -1)):
+        img.putpixel((c + dx, c + dy), p["gold"][1] + (255,))
+    return img
+
+
+# The textures the Concordance's GuiLib stylesheets (assets/jugcraft/ui/journal.css and composer.css) and the plain
+# journal screen draw. Run `python tools/ui_kit.py` to write them again.
+CONCORDANCE = {
+    "textures/gui/concordance/star_page.png": lambda: arcane_page(128, 128),
+    "textures/gui/concordance/sigil.png": lambda: sigil(128),
+    "textures/gui/concordance/corner_star.png": corner_star,
+}
+
+
+def write_all(assets):
+    for path, draw in CONCORDANCE.items():
+        out = assets / path
+        out.parent.mkdir(parents=True, exist_ok=True)
+        draw().save(out)
+
+
+if __name__ == "__main__":
+    from pathlib import Path
+    write_all(Path(__file__).resolve().parent.parent / "src" / "main" / "resources" / "assets" / "jugcraft")

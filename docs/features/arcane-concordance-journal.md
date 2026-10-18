@@ -34,6 +34,8 @@ The library roles, each with one purpose:
 
 ## Player experience
 
+Both journal screens and the Spell Composer's GuiLib workspace wear the Concordance's arcane look: a gold-framed star-chart page in Minecraft's font ([themed screens](themed-screens.md)).
+
 **J** (Controls: *Concordance Journal*, remappable) opens the journal. It asks the server, which answers with what it
 knows of this player now, in sections:
 

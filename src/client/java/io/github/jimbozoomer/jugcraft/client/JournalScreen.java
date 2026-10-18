@@ -1,6 +1,7 @@
 package io.github.jimbozoomer.jugcraft.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import io.github.jimbozoomer.jugcraft.Jugcraft;
 import io.github.jimbozoomer.jugcraft.concordance.journal.JournalLine;
 import io.github.jimbozoomer.jugcraft.concordance.journal.JournalSection;
 import java.util.ArrayList;
@@ -10,7 +11,9 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 
 /**
@@ -18,7 +21,9 @@ import net.minecraft.util.FormattedCharSequence;
  * vanilla widgets, so it works without GuiLib, with every control on the keyboard and read out by the narrator. The
  * section buttons (or Left and Right) change section; Tab moves between buttons; Up, Down, Page Up, Page Down and the
  * mouse wheel scroll; R asks the server again; X shows or hides the exact figures; Compose opens the Spell Composer. Light text on a dark panel; nothing
- * here relies on colour alone (the lines say what they mean). It only shows what the server sent.
+ * here relies on colour alone (the lines say what they mean). It only shows what the server sent. It wears the GuiLib
+ * journal's arcane look (docs/features/themed-screens.md): a gold-framed star-chart page with a faint sigil and gilt
+ * corner stars (textures/gui/concordance/, drawn by tools/ui_kit.py) and {@link ArcaneButton}s.
  */
 public class JournalScreen extends Screen {
 	private static final int MAX_WIDTH = 420;
@@ -26,11 +31,17 @@ public class JournalScreen extends Screen {
 	private static final int FOOTER = 48;
 	private static final int PAD = 8;
 	private static final int SCROLL_STEP = 10;
-	private static final int PANEL = 0xF0141419;
-	private static final int EDGE = 0xFF6F5BA8;
-	private static final int TEXT = 0xFFF2F0F8;
+	private static final Identifier PAGE = Jugcraft.id("textures/gui/concordance/star_page.png");
+	private static final Identifier SIGIL = Jugcraft.id("textures/gui/concordance/sigil.png");
+	private static final Identifier STAR = Jugcraft.id("textures/gui/concordance/corner_star.png");
+	private static final int OUTLINE = 0xFF0A0614;
+	private static final int GOLD = 0xFFCEA652;
+	private static final int RULE = 0xFF7A5A22;
+	private static final int WELL = 0x990C0818;
+	private static final int EDGE = 0xFF8F74D8;
+	private static final int TEXT = 0xFFF2ECFF;
 	private static final int TITLE = 0xFFFFD98A;
-	private static final int DIM = 0xFFC9C3D8;
+	private static final int DIM = 0xFFB9AEE0;
 
 	private int left;
 	private int top;
@@ -58,21 +69,18 @@ public class JournalScreen extends Screen {
 		panelHeight = height - 24;
 		left = (width - panelWidth) / 2;
 		top = 12;
-		previous = addRenderableWidget(Button.builder(Component.literal("<"), button -> turn(-1))
-				.bounds(left + PAD, top + 14, 20, 16).build());
-		next = addRenderableWidget(Button.builder(Component.literal(">"), button -> turn(1))
-				.bounds(left + panelWidth - PAD - 20, top + 14, 20, 16).build());
+		previous = addRenderableWidget(new ArcaneButton(left + PAD, top + 14, 20, 16, Component.literal("<"), button -> turn(-1)));
+		next = addRenderableWidget(new ArcaneButton(left + panelWidth - PAD - 20, top + 14, 20, 16, Component.literal(">"), button -> turn(1)));
 		int buttonsY = top + panelHeight - 24;
 		int quarter = (panelWidth - 2 * PAD - 12) / 4;
-		addRenderableWidget(Button.builder(Component.translatable("screen.jugcraft.journal.refresh"), button -> JournalClient.request())
-				.bounds(left + PAD, buttonsY, quarter, 20).build());
-		exact = addRenderableWidget(Button.builder(exactLabel(), button -> toggleExact())
-				.bounds(left + PAD + quarter + 4, buttonsY, quarter, 20).build());
+		addRenderableWidget(new ArcaneButton(left + PAD, buttonsY, quarter, 20,
+				Component.translatable("screen.jugcraft.journal.refresh"), button -> JournalClient.request()));
+		exact = addRenderableWidget(new ArcaneButton(left + PAD + quarter + 4, buttonsY, quarter, 20, exactLabel(), button -> toggleExact()));
 		// The Spell Composer, which comes back here.
-		addRenderableWidget(Button.builder(Component.translatable("screen.jugcraft.journal.compose"), button -> ComposerClient.open(minecraft, this))
-				.bounds(left + PAD + 2 * (quarter + 4), buttonsY, quarter, 20).build());
-		addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> onClose())
-				.bounds(left + PAD + 3 * (quarter + 4), buttonsY, quarter, 20).build());
+		addRenderableWidget(new ArcaneButton(left + PAD + 2 * (quarter + 4), buttonsY, quarter, 20,
+				Component.translatable("screen.jugcraft.journal.compose"), button -> ComposerClient.open(minecraft, this)));
+		addRenderableWidget(new ArcaneButton(left + PAD + 3 * (quarter + 4), buttonsY, quarter, 20,
+				Component.translatable("gui.done"), button -> onClose()));
 	}
 
 	@Override
@@ -184,9 +192,28 @@ public class JournalScreen extends Screen {
 	@Override
 	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
 		super.extractBackground(graphics, mouseX, mouseY, delta);
-		graphics.fill(left - 1, top - 1, left + panelWidth + 1, top + panelHeight + 1, EDGE);
-		graphics.fill(left, top, left + panelWidth, top + panelHeight, PANEL);
-		graphics.text(font, title, left + (panelWidth - font.width(title)) / 2, top + 3, TITLE, false);
+		int right = left + panelWidth;
+		int bottom = top + panelHeight;
+		graphics.fill(left - 3, top - 3, right + 3, bottom + 3, OUTLINE);
+		graphics.fill(left - 2, top - 2, right + 2, bottom + 2, GOLD);
+		// The star-chart page, tiled, with the sigil low on the right under the text.
+		graphics.enableScissor(left, top, right, bottom);
+		for (int x = left; x < right; x += 128) {
+			for (int y = top; y < bottom; y += 128) {
+				graphics.blit(RenderPipelines.GUI_TEXTURED, PAGE, x, y, 0, 0, 128, 128, 128, 128, 128, 128);
+			}
+		}
+		graphics.blit(RenderPipelines.GUI_TEXTURED, SIGIL, right - PAD - 132, bodyBottom() - 132, 0, 0, 128, 128, 128, 128, 128, 128);
+		graphics.disableScissor();
+		for (int x : new int[] {left - 4, right - 5}) {
+			for (int y : new int[] {top - 4, bottom - 5}) {
+				graphics.blit(RenderPipelines.GUI_TEXTURED, STAR, x, y, 0, 0, 9, 9, 9, 9, 9, 9);
+			}
+		}
+		// A gold rule under the heading, and a dark well behind the lines.
+		graphics.fill(left + PAD, top + 32, right - PAD, top + 33, RULE);
+		graphics.fill(left + PAD - 2, bodyTop() - 2, left + PAD + textWidth() + 8, bodyBottom() + 1, WELL);
+		graphics.text(font, title, left + (panelWidth - font.width(title)) / 2, top + 3, TITLE, true);
 	}
 
 	@Override
@@ -206,7 +233,7 @@ public class JournalScreen extends Screen {
 		}
 		int index = index(sections);
 		Component heading = Component.translatable("screen.jugcraft.journal.section", index + 1, sections.size(), sections.get(index).title());
-		graphics.text(font, heading, left + (panelWidth - font.width(heading)) / 2, top + 18, TITLE, false);
+		graphics.text(font, heading, left + (panelWidth - font.width(heading)) / 2, top + 18, TITLE, true);
 		wrap(sections);
 		graphics.enableScissor(x, bodyTop(), x + textWidth() + 6, bodyBottom());
 		int y = bodyTop() - scroll;
@@ -222,7 +249,7 @@ public class JournalScreen extends Screen {
 		if (total > visible) {
 			int barHeight = Math.max(8, visible * visible / total);
 			int barY = bodyTop() + (visible - barHeight) * scroll / Math.max(1, total - visible);
-			graphics.fill(x + textWidth() + 3, bodyTop(), x + textWidth() + 5, bodyBottom(), 0xFF2A2833);
+			graphics.fill(x + textWidth() + 3, bodyTop(), x + textWidth() + 5, bodyBottom(), 0xFF1E1438);
 			graphics.fill(x + textWidth() + 3, barY, x + textWidth() + 5, barY + barHeight, EDGE);
 		}
 		int helpY = bodyBottom() + 4;
