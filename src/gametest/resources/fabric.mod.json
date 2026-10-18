@@ -241,7 +241,8 @@
       "io.github.jimbozoomer.jugcraft.test.AlchemyStorageGameTests",
       "io.github.jimbozoomer.jugcraft.test.AlchemyArtifactGameTests",
       "io.github.jimbozoomer.jugcraft.test.ConnectedAlchemyGameTests",
-      "io.github.jimbozoomer.jugcraft.test.AlchemyPlayabilityGameTests"
+      "io.github.jimbozoomer.jugcraft.test.AlchemyPlayabilityGameTests",
+      "io.github.jimbozoomer.jugcraft.test.TransmutationTabletLayoutGameTests"
     ],
     "fabric-client-gametest": [
       "io.github.jimbozoomer.jugcraft.test.TreeBatchFiveClientGameTests",

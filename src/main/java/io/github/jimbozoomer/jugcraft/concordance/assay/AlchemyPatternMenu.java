@@ -12,9 +12,13 @@ import net.minecraft.world.entity.player.*;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 
-/** Two real transaction slots and 24 read-only, server-synchronized learned patterns. */
+/** Two real transaction slots and 16 read-only, server-synchronized learned patterns. */
 public final class AlchemyPatternMenu extends AbstractContainerMenu {
-    public static final int GHOST_START=38, PAGE_SIZE=24;
+    public static final int GHOST_START=38, PAGE_SIZE=16;
+    /** The learned patterns sit on the right circle of the transmutation art: twelve round the rim from the top, clockwise
+     * (the diagonal ones pushed out a little so no two 18-pixel slots touch), then four inside. */
+    private static final int[][] RING={{157,8},{177,11},{195,29},{198,49},{195,69},{177,87},{157,90},{137,87},{119,69},{116,49},{119,29},{137,11},
+            {157,30},{176,49},{157,68},{138,49}};
     private final Player owner;
     private final BooleanSupplier access;
     private final ItemStack eye;
@@ -34,10 +38,10 @@ public final class AlchemyPatternMenu extends AbstractContainerMenu {
     public AlchemyPatternMenu(int id,Inventory inv,BooleanSupplier access,ItemStack eye){
         super(AlchemyPatterns.MENU,id);owner=inv.player;this.access=access;this.eye=eye;
         if(!eye.isEmpty())selected=eye.getOrDefault(AlchemyPatterns.TARGET,"");
-        addSlot(new Slot(real,0,31,63){@Override public boolean isActive(){return !eye();}@Override public boolean mayPlace(ItemStack s){return !eye();}});
-        addSlot(new Slot(real,1,113,63){@Override public boolean isActive(){return !eye();}@Override public boolean mayPlace(ItemStack s){return false;}});
-        addStandardInventorySlots(inv,181,151);
-        for(int i=0;i<PAGE_SIZE;i++)addSlot(new Slot(ghost,i,205+(i%6)*22,52+(i/6)*20){
+        addSlot(new Slot(real,0,42,49){@Override public boolean isActive(){return !eye();}@Override public boolean mayPlace(ItemStack s){return !eye();}});
+        addSlot(new Slot(real,1,157,49){@Override public boolean isActive(){return !eye();}@Override public boolean mayPlace(ItemStack s){return false;}});
+        addStandardInventorySlots(inv,35,117);
+        for(int i=0;i<PAGE_SIZE;i++)addSlot(new Slot(ghost,i,RING[i][0],RING[i][1]){
             @Override public boolean mayPlace(ItemStack s){return false;}
             @Override public boolean mayPickup(Player p){return false;}
         });

@@ -8,6 +8,8 @@ Craft, find or trade for an alchemical item and use it immediately. First Light,
 
 The tablet, Eye, Klein Star, storage, material catalogue, converters, collector/condenser, relay/furnace/pedestal/ward/Nova controls, guide and Gem controls share an engraved dark-metal equipment style: silver bevels, restrained teal/violet inlays, recessed inventory trays, distinct selected controls and bounded animated energy indicators. Supplied owner icons and atlas fragments remain unchanged. The rendering extends `OwnerAlchemyArt` and the native narrated button widgets; no new UI library is required. Reduced-motion settings freeze decorative movement.
 
+The transmutation tablet itself later moved onto the two-circle transmutation art at a contributor's request; see [Transmutation tablet on the circle art](transmutation-tablet-circles.md). The other screens keep this style.
+
 Input, output and selected-pattern sockets are visually distinct. The tablet retains the **dissolve an actual item to learn its pattern** rule, exact essence price and 1/16/64/Max withdrawal. Knowing an item pattern is separate from having permission to operate the tablet. The Eye hides irrelevant transaction slots. Guide tabs highlight their current topic. Gem powers can be clicked after equipping the correct piece, without first activating it in the hand; powers still use normal costs, cooldowns and safe movement rules.
 
 ## Progression, authority and saves
