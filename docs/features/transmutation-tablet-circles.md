@@ -54,7 +54,14 @@ No other screen changes. The rest of the alchemy suite keeps the dark equipment 
 - reach a control with Tab;
 - screenshot the tablet at GUI scales 1 and 2.
 
-**Results:** not yet run; the fork's Build workflow results will be recorded here.
+**Results:** the fork's Build workflow passed on commit 66c2bf33 ([run 39176895448](https://github.com/mmme123-spec/jugcraftfork/actions/runs/39176895448)): compilation, the headless server game tests (including the new layout test) and all eight rendered-client shards. The client screenshots were reviewed:
+
+- dissolving, confirming and withdrawing one copper ingot (`alchemy_stone_ready`, `_confirm`, `_result`), at GUI scales 1 and 2;
+- seven learned patterns round the right circle with the favourite star lit (`learned_transmutation_patterns`);
+- a withdrawal of 16 iron ingots for 4,096 essence (`tablet_bulk_withdrawal`);
+- the Mercurial Eye's building palette, with Use pattern across the row and a 5 × 5 area (`mercurial_building_palette`).
+
+The eye's title, "Mercurial building palette", is cut to fit the column.
 
 **Not run:** a hands-on playtest.
 
