@@ -27,7 +27,7 @@ final class ArcaneButton extends Button {
         g.fill(x + 2, y + h - 3, x + w - 2, y + h - 2, 0xFF1E1438);
         if (isFocused()) g.outline(x - 1, y - 1, w + 2, h + 2, 0xFFFFD98A);
         var font = Minecraft.getInstance().font;
-        String label = BookArt.fit(font, getMessage().getString(), w - 8);
+        String label = BookArt.fit(font, getMessage().getString(), w - 6);
         g.text(font, label, x + (w - font.width(label)) / 2, y + (h - 8) / 2, active ? 0xFFF2ECFF : 0xFF7A7096, active);
     }
 }

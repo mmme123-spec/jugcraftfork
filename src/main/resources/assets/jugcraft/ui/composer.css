@@ -1,54 +1,38 @@
-/* The Spell Composer's GuiLib workspace (src/client/kotlin/.../ComposerWorkspace.kt), in the journal's arcane look
-   (docs/features/themed-screens.md): Minecraft's own font on the gold-framed star-chart page (textures/gui/concordance/,
-   drawn by tools/ui_kit.py). Light text on a dark page, a visible focus ring on every control, the chosen word in
-   brackets and a problem word marked "!" in its text (colour only repeats them), and no motion with the Concordance's
-   reduced-motion setting. The spell box never shrinks (GuiLib's inputs clip, so a column could squeeze one to its
-   padding); the body takes what is left. */
-:root {
-  --guilib-accent: #a878ff; --guilib-text: #f2ecff; --guilib-text-muted: #b9aee0; --guilib-text-strong: #fff6d6;
-  --guilib-focus: #ffd98a; --guilib-scrollbar-thumb: #8f74d8; --guilib-scrollbar-track: #120c24;
-}
-body { display: flex; align-items: center; justify-content: center; font-family: minecraft; }
+/* The Spell Composer's GuiLib workspace (src/client/kotlin/.../ComposerWorkspace.kt). Light text on a dark panel, the
+   journal's colours, a visible focus ring on every control, the chosen word in brackets and a problem word marked "!"
+   in its text (colour only repeats them), and no motion with the Concordance's reduced-motion setting. The spell box
+   never shrinks (GuiLib's inputs clip, so a column could squeeze one to its padding); the body takes what is left. */
+:root { --guilib-accent: #9b86d6; }
+body { display: flex; align-items: center; justify-content: center; }
 .composer {
-  width: min(460px, 94vw); height: 92vh; padding: 10px 12px; display: flex; flex-direction: column;
-  background: url("jugcraft:textures/gui/concordance/corner_star.png") left 1px top 1px / 9px no-repeat,
-    url("jugcraft:textures/gui/concordance/corner_star.png") right 1px top 1px / 9px no-repeat,
-    url("jugcraft:textures/gui/concordance/corner_star.png") left 1px bottom 1px / 9px no-repeat,
-    url("jugcraft:textures/gui/concordance/corner_star.png") right 1px bottom 1px / 9px no-repeat,
-    url("jugcraft:textures/gui/concordance/star_page.png") 0 0 / 128px;
-  background-color: #18122e;
-  border: 2px solid #cea652;
-  box-shadow: 0 0 0 1px #0a0614, 0 4px 14px #000000b0;
-  color: #f2ecff;
+  width: min(460px, 94vw); height: 92vh; padding: 8px; display: flex; flex-direction: column;
+  background-color: #141419; border: 1px solid #6f5ba8; border-radius: 4px; color: #f2f0f8;
 }
-.composer h2 { color: #ffd98a; margin: 0 0 3px 0; font-size: 8px; text-shadow: 1px 1px #2a1a06; }
-.status { color: #b9aee0; margin: 0 0 2px 0; }
+.composer h2 { color: #ffd98a; margin: 0 0 2px 0; }
+.status { color: #c9c3d8; margin: 0 0 2px 0; }
 .spell {
-  flex-shrink: 0; width: 100%; margin: 3px 0; padding: 3px 4px; background-color: #0c0818d0; border: 1px solid #cea652;
-  border-radius: 0; color: #fff6d6; font-family: minecraft;
+  flex-shrink: 0; width: 100%; margin: 3px 0; padding: 3px 4px; background-color: #1b1a22; border: 1px solid #6f5ba8;
+  border-radius: 3px; color: #f2f0f8;
 }
-.body { flex: 1; min-height: 0; padding: 3px 5px; background-color: #0c081899; border: 1px solid #3e2f6e; }
+.body { flex: 1; min-height: 0; padding: 2px 4px; background-color: #1b1a22; border-radius: 3px; }
 .level, .slot, .edits { display: flex; flex-wrap: wrap; gap: 2px; align-items: center; margin-bottom: 3px; }
 .label { color: #ffd98a; margin-right: 4px; }
 .part, .word, .edit {
-  padding: 2px 5px; background-color: #2a1d4c; border: 1px solid #5c4a96; border-radius: 0; color: #f2ecff;
+  padding: 2px 5px; background-color: #2a2833; border: 1px solid #4b4560; border-radius: 3px; color: #f2f0f8;
 }
-.part:hover, .word:hover, .edit:hover { background-color: #3e2b6e; border-color: #8f74d8; }
-.part.chosen { border-color: #ffd98a; background-color: #3a2a1a; }
+.part:hover, .word:hover, .edit:hover { background-color: #3a3547; }
+.part.chosen { border-color: #ffd98a; }
 .part.wrong { border-color: #e07a7a; }
-.word:disabled, .edit:disabled { color: #7a7096; border-color: #2c2448; background-color: #1a1330; }
-.hint, .busy { color: #b9aee0; }
+.word:disabled, .edit:disabled { color: #77727f; border-color: #2f2c38; }
+.hint, .busy { color: #c9c3d8; }
 .report { margin-top: 4px; }
 .heading { color: #ffd98a; margin: 0 0 2px 0; }
-.line { padding: 1px 0; line-height: 10px; text-shadow: 1px 1px #0a0614; }
-.help { color: #9c90c6; margin-top: 5px; }
-.footer { display: flex; gap: 6px; justify-content: flex-end; margin-top: 5px; }
-.footer button {
-  padding: 3px 8px; background-color: #34245e; border: 1px solid #8f74d8; border-radius: 0; color: #f2ecff;
-  box-shadow: 0 0 0 1px #0a0614; text-shadow: 1px 1px #120a24;
-}
-.footer button:hover { background-color: #4b3486; border-color: #f6da8c; box-shadow: 0 0 0 1px #0a0614, 0 0 6px #a878ff80; }
-.footer .primary { border-color: #cea652; }
-.footer button:disabled { color: #7a7096; border-color: #2c2448; background-color: #1a1330; box-shadow: none; }
+.line { padding: 1px 0; line-height: 10px; }
+.help { color: #c9c3d8; margin-top: 4px; font-size: 7px; }
+.footer { display: flex; gap: 6px; justify-content: flex-end; margin-top: 4px; }
+.footer button { padding: 2px 8px; background-color: #2a2833; border: 1px solid #6f5ba8; border-radius: 3px; color: #f2f0f8; }
+.footer button:hover { background-color: #3a3547; }
+.footer .primary { border-color: #ffd98a; }
+.footer button:disabled { color: #77727f; border-color: #2f2c38; }
 button:focus-visible, .spell:focus-visible { outline: 1px solid #ffd98a; outline-offset: 1px; }
 .reduced-motion button { transition: none; }

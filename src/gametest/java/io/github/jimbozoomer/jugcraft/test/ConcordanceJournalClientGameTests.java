@@ -30,6 +30,8 @@ public class ConcordanceJournalClientGameTests implements FabricClientGameTest {
 			});
 			context.runOnClient(client -> JournalClient.request());
 			context.waitFor(client -> JournalClient.received() && !JournalClient.sections().isEmpty());
+			// Advancement pop-ups from the grants above would cover the journal's top right corner.
+			context.runOnClient(client -> client.gui.toastManager().clear());
 			context.setScreen(JournalScreen::new);
 			context.waitTicks(5);
 			context.takeScreenshot("jugcraft_concordance_journal_simple");
@@ -37,6 +39,8 @@ public class ConcordanceJournalClientGameTests implements FabricClientGameTest {
 				context.setScreen(() -> null);
 				context.runOnClient(client -> JournalWorkspace.open());
 				context.waitTicks(10);
+				context.runOnClient(client -> client.gui.toastManager().clear());
+				context.waitTicks(2);
 				context.takeScreenshot("jugcraft_concordance_journal_workspace");
 			}
 			context.setScreen(() -> null);

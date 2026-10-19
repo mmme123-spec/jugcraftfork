@@ -236,8 +236,8 @@ def corner_star(size=9):
     return img
 
 
-# The textures the Concordance's GuiLib stylesheets (assets/jugcraft/ui/journal.css and composer.css) and the plain
-# journal screen draw. Run `python tools/ui_kit.py` to write them again.
+# The textures the Concordance Journal's GuiLib stylesheet (assets/jugcraft/ui/journal.css) and its plain screen
+# draw. Run `python tools/ui_kit.py` to write them again.
 CONCORDANCE = {
     "textures/gui/concordance/star_page.png": lambda: arcane_page(128, 128),
     "textures/gui/concordance/sigil.png": lambda: sigil(128),
