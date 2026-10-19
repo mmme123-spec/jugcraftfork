@@ -49,7 +49,12 @@ Client-side looks only. No registrations, saved data or text strings change.
 
 **Existing client test that photographs these screens:** `ConcordanceJournalClientGameTests` takes `jugcraft_concordance_journal_simple` (the plain screen) and `jugcraft_concordance_journal_workspace` (GuiLib). It now clears the advancement pop-ups first, which had covered the journal's top right corner.
 
-**Results:** not yet run; the fork's Build workflow results will be recorded here.
+**Results:** the fork's Build workflow passed on commit 2a3b3e61 ([run 39183060467](https://github.com/mmme123-spec/jugcraftfork/actions/runs/39183060467)): compilation, the headless server game tests and all eight rendered-client shards. Both journal screenshots were reviewed:
+
+- the GuiLib journal shows its gold frame, star page, sigil and gold Overview tab, with the title, the exact-values switch and the Refresh and Compose buttons readable;
+- the plain journal shows the same page with its section arrows and four gilt buttons.
+
+The plain screen's "Exact values: hidden" label is cut to "Exact values: hi…" at the default width.
 
 **Not run:** a hands-on look in a running game.
 
