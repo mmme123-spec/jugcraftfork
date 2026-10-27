@@ -41,7 +41,7 @@ No IDs, saved data or network messages change. 163 codex entry files are removed
 
 - `JugNouveauClientGameTests`: the Fell glyph's tooltip lines include its description.
 - Local: `python tools/generate_material_data.py` wrote the descriptions and the codex (no "See its encyclopedia entry" line is left; 410 entries); `python tools/check_mod_data.py` passed (7,797 material IDs, including the progression check that every made item's codex entry shows how to make it); a tree-sitter parse of the changed Java found no syntax errors; `python scripts/check_repository.py` passed.
-- CI: pending.
+- CI: fork [run 40437675556](https://github.com/mmme123-spec/jugcraftfork/actions/runs/40437675556) on 04d6bc008: green. The mod built, the generated-data and material checks passed, the server game tests passed (with and without optional integrations), and all sixteen client shards passed, including the Fell glyph tooltip check. (The run on 6159fc5a8 was cancelled when 04d6bc008 replaced it.)
 
 Not run: a human reading tooltips, the codex or the Jade line in game.
 
