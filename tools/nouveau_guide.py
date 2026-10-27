@@ -181,7 +181,7 @@ HAND={
 
 def item_tooltip(key, spec):
     """A Jug Nouveau item's own description: the supplied text about it, written-in text above, or the creature a spawn
-    egg makes; essences say they are not alchemical essence, and Source things say what Source is here."""
+    egg makes; the Source Gem says what Source is here."""
     sources=[f'ars_jimbaux.{kind}.{key}' for kind in ('glyph_desc','perk_desc','ritual_desc','familiar_desc')]+[f'ars_jimbaux.{key}.tooltip',f'item.ars_jimbaux.{key}.desc',f'ars_jimbaux.page.{key}',f'ars_jimbaux.page1.{key}',f'ars_jimbaux.tome_flavor.{key}']
     found=next((LANG[k] for k in sources if k in LANG),None)
     if key in HAND:result=HAND[key]
@@ -189,6 +189,5 @@ def item_tooltip(key, spec):
     elif spec['kind']=='spawn_egg':result='Spawns a '+spec['name'].removesuffix(' Spawn Egg')+'.'
     elif spec['kind']=='music_disc':result='A music disc.'
     else:result=spec['name']+'.'
-    if key.endswith('_essence'):result+=' A spell ingredient, not the alchemical essence spent at a transmutation tablet.'
     if key=='source_gem':result+=' The Source in the codex is Ley Charge here: 100 Source is 1 Ley Charge.'
     return result

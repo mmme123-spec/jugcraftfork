@@ -21,7 +21,7 @@ The Dominion Wand and the charms keep the lines they already had.
 
 **Source.** The supplied text calls the magic resource Source; Jugcraft stores it as Ley Charge, 100 Source to 1. Looking at a Source Jar, relay or Sourcelink with Jade now shows "Ley Charge: 340 / 1000", and a jar adds "The codex calls this Source: 100 Source is 1 Ley Charge". The Source Gem's description says the same.
 
-**Essence.** The alchemy balance is called essence by the owner's choice (alchemical-gear.md, 16 October), so it keeps that name. The Jug Nouveau essences (Air, Earth, Fire, Water, Abjuration, Conjuration, Manipulation) now say in their descriptions that they are spell ingredients, not the alchemical essence spent at a transmutation tablet.
+**Essence.** The alchemy balance is called essence by the owner's choice (alchemical-gear.md, 16 October) and is left as it is; the Jug Nouveau essence items are unchanged apart from their descriptions.
 
 ## How
 
