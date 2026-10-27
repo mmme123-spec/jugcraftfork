@@ -20,7 +20,9 @@ ITEMS = {
     "starbuncle_charm": {"name": "Starbuncle Charm", "tooltip": "Use on the ground to summon your courier. Select it with a Dominion Wand, then select a pickup chest and delivery chest."},
 }
 BLOCKS = {"bookwyrm_lectern": {"name": "Storage Lectern"}}
-ITEMS.update({value["id"]: {"name": value["name"], "tooltip": "Jug Nouveau · " + value["name"] + ". See its encyclopedia entry for use and recipes."} for value in nouveau_content.CATALOG["items"].values() if value["id"] not in ITEMS})
+import nouveau_guide
+# Each item's own description, shown under its name (JugNouveauClient.describe).
+ITEMS.update({value["id"]: {"name": value["name"], "tooltip": nouveau_guide.item_tooltip(key, value)} for key, value in nouveau_content.CATALOG["items"].items() if value["id"] not in ITEMS})
 BLOCKS.update({value["id"]: {"name": value["name"]} for value in nouveau_content.CATALOG["blocks"].values()
                if value["kind"] not in {"internal", "wall_sign", "hanging_wall_sign", "potted"} and value["id"] not in BLOCKS})
 OWNER_FILES = {
@@ -156,6 +158,9 @@ def write_all(write, assets, data, lang, condition, self_drop):
         "message.jugcraft.concordance.workers.kind.starbuncle": "Starbuncle",
         "tooltip.jugcraft.starbuncle_charm": ITEMS["starbuncle_charm"]["tooltip"],
         "tooltip.jugcraft.dominion_wand.starbuncle": "Starbuncle mode: pickup chest → delivery chest. Sneak-use to restart pickup selection.",
+        "tooltip.jugcraft.nouveau.jade.ley": "Ley Charge: %s / %s",
+        "tooltip.jugcraft.nouveau.jade.source": "The codex calls this Source: 100 Source is 1 Ley Charge",
+        "config.jade.plugin_jugcraft.nouveau_charge": "Jug Nouveau Ley Charge",
         "message.jugcraft.starbuncle.summoned": "Starbuncle summoned! Use your Dominion Wand on it to set up deliveries.",
         "message.jugcraft.starbuncle.selected": "Starbuncle selected. Use the wand on its pickup chest, then its delivery chest.",
         "message.jugcraft.starbuncle.source": "Pickup chest selected. Now select a delivery chest within 32 blocks.",

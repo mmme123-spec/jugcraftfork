@@ -57,13 +57,6 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.reference_weald_walker.p5.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.reference_weald_walker.p5.text",
       "show_title_separator": true
-    },
-    {
-      "type": "modonomicon:text",
-      "id": "p6",
-      "title": "book.jugcraft.arcane_concordance.nouveau.reference_weald_walker.p6.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.reference_weald_walker.p6.text",
-      "show_title_separator": true
     }
   ]
 }

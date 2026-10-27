@@ -64,13 +64,6 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.reference_wilden.p6.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.reference_wilden.p6.text",
       "show_title_separator": true
-    },
-    {
-      "type": "modonomicon:text",
-      "id": "p7",
-      "title": "book.jugcraft.arcane_concordance.nouveau.reference_wilden.p7.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.reference_wilden.p7.text",
-      "show_title_separator": true
     }
   ]
 }

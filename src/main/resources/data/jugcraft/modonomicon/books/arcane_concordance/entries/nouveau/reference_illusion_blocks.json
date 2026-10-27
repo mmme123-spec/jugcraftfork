@@ -50,13 +50,6 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.reference_illusion_blocks.p4.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.reference_illusion_blocks.p4.text",
       "show_title_separator": true
-    },
-    {
-      "type": "modonomicon:text",
-      "id": "p5",
-      "title": "book.jugcraft.arcane_concordance.nouveau.reference_illusion_blocks.p5.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.reference_illusion_blocks.p5.text",
-      "show_title_separator": true
     }
   ]
 }

@@ -57,6 +57,12 @@ public class JugNouveauClientGameTests implements FabricClientGameTest {
             server.runCommand("tp @p %f %f %f 180 5".formatted(x+.5,(double)y,z+17.0));c.waitTicks(20);
             c.runOnClient(mc->{if(mc.player.getY()<y-.1)throw new AssertionError("Gallery camera must remain on its platform");});
             c.takeScreenshot("jug_nouveau_six_colors");
+            // Each Jug Nouveau item shows its own description under its name, not a pointer to the codex.
+            c.runOnClient(mc->{
+                var stack=new ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.getValue(io.github.jimbozoomer.jugcraft.Jugcraft.id("nouveau_glyph_fell")));
+                var lines=stack.getTooltipLines(Item.TooltipContext.of(mc.level),mc.player,TooltipFlag.NORMAL).stream().map(Component::getString).toList();
+                if(lines.size()<2||!String.join(" ",lines.subList(1,lines.size())).contains("Harvests entire trees"))throw new AssertionError("The Fell glyph should describe itself: "+lines);
+            });
         }
     }
 }

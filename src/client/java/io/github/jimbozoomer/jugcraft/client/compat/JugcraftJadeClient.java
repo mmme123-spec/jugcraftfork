@@ -35,6 +35,8 @@ import io.github.jimbozoomer.jugcraft.concordance.spire.SpireHeartBlock;
 import io.github.jimbozoomer.jugcraft.Jugcraft;
 import net.minecraft.world.level.block.state.BlockState;
 import io.github.jimbozoomer.jugcraft.machine.MachineBlock;
+import io.github.jimbozoomer.jugcraft.nouveau.NouveauWorkshop;
+import io.github.jimbozoomer.jugcraft.nouveau.NouveauWorkshopBlock;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -67,6 +69,7 @@ public final class JugcraftJadeClient implements JugcraftJadePlugin.ClientRegist
 		registration.registerBlockComponent(ShrineTooltip.INSTANCE, ReliquaryShrineBlock.class);
 		registration.registerBlockComponent(SpireTooltip.INSTANCE, SpireHeartBlock.class);
 		registration.registerBlockComponent(CropTooltip.INSTANCE, OrganismCropBlock.class);
+		registration.registerBlockComponent(NouveauChargeTooltip.INSTANCE, NouveauWorkshopBlock.class);
 	}
 
 	/** A growth word as the server noted it: a pace, dormant, or waiting for a reading. */
@@ -253,6 +256,35 @@ public final class JugcraftJadeClient implements JugcraftJadePlugin.ClientRegist
 					OrganismCropBlock.MAX_AGE, crop.isMaxAge(state) ? Component.translatable("compose.jugcraft.ecology.mature") : Component.empty()));
 			if (!crop.isMaxAge(state) && accessor.getLevel().getBlockEntity(accessor.getPosition().below()) instanceof VerdantBedBlockEntity bed) {
 				verdict(tooltip, bed.growth(), String.join("\n", bed.reasons()));
+			}
+		}
+	}
+
+	/**
+	 * A Jug Nouveau Source Jar, relay or Sourcelink: the Ley Charge it holds, from the block entity the client already has.
+	 * The supplied codex calls this Source; NouveauSource stores it as Ley Charge at 100 Source to 1.
+	 */
+	private enum NouveauChargeTooltip implements IBlockComponentProvider {
+		INSTANCE;
+
+		@Override
+		public Identifier getUid() {
+			return Jugcraft.id("nouveau_charge");
+		}
+
+		@Override
+		public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+			if (!(accessor.getBlockEntity() instanceof NouveauWorkshop workshop)) {
+				return;
+			}
+			String kind = workshop.kind();
+			boolean jar = kind.contains("source_jar");
+			if (!jar && !kind.startsWith("relay") && !kind.endsWith("sourcelink") && workshop.ley() <= 0) {
+				return;
+			}
+			tooltip.add(Component.translatable("tooltip.jugcraft.nouveau.jade.ley", workshop.ley(), workshop.capacity()));
+			if (jar) {
+				tooltip.add(Component.translatable("tooltip.jugcraft.nouveau.jade.source"));
 			}
 		}
 	}

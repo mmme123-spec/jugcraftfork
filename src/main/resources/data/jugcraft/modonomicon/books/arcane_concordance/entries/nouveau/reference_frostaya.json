@@ -22,13 +22,6 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.reference_frostaya.p0.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.reference_frostaya.p0.text",
       "show_title_separator": true
-    },
-    {
-      "type": "modonomicon:text",
-      "id": "p1",
-      "title": "book.jugcraft.arcane_concordance.nouveau.reference_frostaya.p1.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.reference_frostaya.p1.text",
-      "show_title_separator": true
     }
   ]
 }

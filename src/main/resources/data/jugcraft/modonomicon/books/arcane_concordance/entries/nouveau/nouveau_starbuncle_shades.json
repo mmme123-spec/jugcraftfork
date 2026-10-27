@@ -17,11 +17,25 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p0.title",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p0.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p2",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p2.title",
       "recipe_id_1": "jugcraft:nouveau/starbuncle_shades",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p0.text"
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_starbuncle_shades.p2.text"
     }
   ]
 }

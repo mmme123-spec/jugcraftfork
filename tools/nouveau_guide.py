@@ -21,6 +21,16 @@ TOPICS = [
  ('containment','Containment jars','mob_jar','The Containment ritual stores an eligible nearby creature in a jar with its real saved data. Sneak-use empty-handed to release it where there is room.','Milk cows and mooshrooms through the jar, shear stored sheep, and let chickens produce eggs. Drygmys can study captured specimens. Bosses, players and another owner’s workers cannot be captured. A clock can be displayed inside an empty jar.')
 ]
 
+# Where supplied text says Source, the shared resource is Ley Charge (NouveauSource: 100 Source to 1 Ley Charge).
+SOURCE_NOTE=('text','In Jugcraft','Where this text says Source, Jugcraft uses Ley Charge: 100 Source is 1 Ley Charge. Spell mana is Focus.')
+
+def first_sentence(value, limit=110):
+    """A codex subtitle or tooltip from supplied prose: its first sentence, cut at a word if it is long."""
+    value=' '.join(value.split())
+    match=re.match(r'(.+?[.!?])(\s|$)',value)
+    value=match.group(1) if match else value
+    return value if len(value)<=limit else value[:limit].rsplit(' ',1)[0]+'…'
+
 def text(value):
     value=value.replace('Ars Nouveau','Jug Nouveau')
     value=re.sub(r'\$\(br2?\)', '\n\n', value)
@@ -37,12 +47,21 @@ def codex():
         if match:grouped.setdefault(match[1],[]).append((key,text(value)))
     for n,(key,pages) in enumerate(sorted(grouped.items())):
         spec=CATALOG['items'].get(key,CATALOG['blocks'].get(key,{})); title=spec.get('name',key.replace('_',' ').title())
-        result[('nouveau','reference_'+key)]={'name':title,'description':'Supplied field reference and Jugcraft integration notes','x':15+(n%8)*3,'y':(n//8)*3,'icon':'jugcraft:'+spec.get('id','nouveau_annotated_codex'),'condition':None,'pages':[('text','Jugcraft controls','Use the Jug Nouveau overview for current controls. Equipment is usable when owned. Source costs become shared Ley Charge at 100:1; spell mana uses Focus. The following supplied reference describes the content’s intended behavior.')]+[('text',title,value) for _,value in pages]}
+        supplied=[('text',title,value) for _,value in pages]
+        if any('source' in value.lower() for _,value in pages):supplied.append(SOURCE_NOTE)
+        result[('nouveau','reference_'+key)]={'name':title,'description':first_sentence(pages[0][1]),'x':15+(n%8)*3,'y':(n//8)*3,'icon':'jugcraft:'+spec.get('id','nouveau_annotated_codex'),'condition':None,'pages':supplied}
     for n,(key,spec) in enumerate((k,v) for k,v in CATALOG['items'].items() if v['kind']=='glyph'):
         pages=[('text',spec['name'],text(LANG.get('ars_jimbaux.glyph_desc.'+key,spec['name'])))]
         pages += [('text','Augments',text(value)) for name,value in LANG.items() if name.startswith('ars_jimbaux.augment_desc.'+key+'_')]
-        result[('nouveau','reference_'+key)]={'name':spec['name'],'description':'Glyph and augment reference','x':42+(n%8)*3,'y':(n//8)*3,'icon':'jugcraft:'+spec['id'],'condition':None,'pages':pages}
-    result.update(acquisition_entries())
+        result[('nouveau','reference_'+key)]={'name':spec['name'],'description':first_sentence(pages[0][2]),'x':42+(n%8)*3,'y':(n//8)*3,'icon':'jugcraft:'+spec['id'],'condition':None,'pages':pages}
+    acquisition=acquisition_entries()
+    # One entry per item: a reference about the same item is folded into its acquisition entry (whose id the
+    # progression check and links use), what it does first and how to make it after.
+    for key,entry in acquisition.items():
+        same=[k for k,v in result.items() if k[1].startswith('reference_') and v['icon']==entry['icon'] and v['icon']!='jugcraft:nouveau_annotated_codex']
+        for k in same:
+            reference=result.pop(k);entry['pages']=reference['pages']+entry['pages'];entry['description']=reference['description']
+    result.update(acquisition)
     return result
 
 def write_all(write,assets,data,lang):
@@ -59,7 +78,7 @@ def acquisition_entries():
     def add(item, title, page):
         if not item.startswith("jugcraft:"):return
         key=item.split(":",1)[1];n=len(entries)
-        entry=entries.setdefault(("nouveau",key),{"name":title,"description":"Acquisition and workshop inputs","x":72+n%12*3,"y":n//12*3,"icon":item,"condition":None,"pages":[]})
+        entry=entries.setdefault(("nouveau",key),{"name":title,"description":"","x":72+n%12*3,"y":n//12*3,"icon":item,"condition":None,"pages":[]})
         entry["pages"].append(page)
     def label(ref):
         if isinstance(ref,list):return " or ".join(label(v) for v in ref)
@@ -72,7 +91,7 @@ def acquisition_entries():
         if not isinstance(output,dict):continue
         item=output.get("id",output.get("item",""));title=label(item).title();rid="jugcraft:nouveau/"+path.relative_to(DATA/"recipe").with_suffix("").as_posix()
         if folder=="recipe" and kind in ("minecraft:crafting_shaped","minecraft:crafting_shapeless"):
-            add(item,title,("crafting_recipe",title,"Craft this with the shown ingredients.",rid));continue
+            add(item,title,("crafting_recipe",title,"",rid));continue
         if kind not in STATIONS:continue
         station=STATIONS[kind];inputs=[]
         for key in ("input","reagent"):
@@ -82,7 +101,9 @@ def acquisition_entries():
         detail="At the "+label(station).title()+": "+", ".join(label(v) for v in inputs)+". "
         if kind=="imbuement":detail+="Works slowly without charge; supplying Ley Charge speeds it up. Pedestal catalysts are retained."
         elif kind=="caster_tome":detail+="Select "+(r.get("name") or path.stem.replace("_"," "))+" in the recipe picker. It spends Focus to cast; repeated augments retain the native 64-target, 384-work, six-block-radius and two-minute effect caps."
-        else:detail+="Costs "+str((r.get("sourceCost",r.get("source",0))+99)//100)+" Ley Charge. Browse and lock this recipe in the workstation interface."
+        else:
+            ley=(r.get("sourceCost",r.get("source",0))+99)//100
+            detail+=("Costs "+str(ley)+" Ley Charge. " if ley else "")+"Browse and lock this recipe in the workstation interface."
         add(item,title,("text",r.get("name") or title,detail))
     for color in ("blue","green","red","purple"):
         item="jugcraft:nouveau_stripped_"+color+"_archwood_log"
@@ -90,4 +111,84 @@ def acquisition_entries():
     add("jugcraft:nouveau_spell_parchment","Spell Parchment",("text","Inscribe a Spell","Put one Blank Parchment in slot 0 of a Scribe’s Table. Hold an inscribed instrument and sneak-use the table to copy its spell onto the parchment."))
     add("jugcraft:nouveau_magebloom","Magebloom",("text","Grow Magebloom","Make Magebloom seeds at the Enchanting Apparatus, plant them on farmland, then harvest the mature crop."))
     add("jugcraft:nouveau_wilden_tribute","Wilden Tribute",("text","Challenge the Chimera","Use a Wilden Summoning ritual with a Wilden Horn, Wing and Spike. Defeat the summoned Chimera to obtain its tribute."))
+    for entry in entries.values():entry["description"]=how(entry["pages"][0])
     return entries
+
+def how(page):
+    """Where an acquisition entry's item comes from, in a few words: its first page's station."""
+    if page[0]=="crafting_recipe":return "Crafted at a crafting table"
+    station=re.match(r"At the ([^:]+):",page[2])
+    return "Made at the "+station.group(1) if station else page[1]
+
+
+# Tooltips for items whose supplied text has no description of their own (checked against the recipes, loot and code).
+HAND={
+ 'air_essence':'An Imbuement Chamber essence for air glyphs and recipes.',
+ 'water_essence':'An Imbuement Chamber essence for water glyphs and recipes.',
+ 'conjuration_essence':'An Imbuement Chamber essence for conjuration glyphs and recipes.',
+ 'source_gem':'Made in the Imbuement Chamber from amethyst or lapis; most Jug Nouveau recipes start from it.',
+ 'alakarkinos_token':'Given by a befriended Alakarkinos; makes its charm.',
+ 'drygmy_shard':'Given by a wild Drygmy you befriend with a Wilden Horn; makes its charm.',
+ 'whirlisprig_shards':'Given by a befriended Whirlisprig; makes its charm.',
+ 'wixie_shards':'Cast Dispel on a Witch at half health to get one; makes a Wixie Charm.',
+ 'starbuncle_shards':'Makes a Starbuncle Charm.',
+ 'wilden_horn':'Dropped by Wilden Hunters. Throw one near a wild Drygmy to befriend it.',
+ 'wilden_wing':'Dropped by Wilden Stalkers.',
+ 'wilden_spike':'Dropped by Wilden Guardians.',
+ 'wilden_tribute':'Won by defeating the Wilden Chimera.',
+ 'novice_spell_book':'Your first spell book: sneak-use it to compose spells; casting spends Focus.',
+ 'apprentice_spell_book':'The second spell book, made from a Novice Spell Book at the Alteration Table.',
+ 'archmage_spell_book':'The highest spell book, made from a Mage’s Spell Book at the Alteration Table.',
+ 'creative_spell_book':'A creative-mode spell book.',
+ 'caster_tome':'A ready-written spell; casting it spends Focus.',
+ 'spell_parchment':'Holds one spell, copied at the Scribe’s Table; inscribes turrets and runes.',
+ 'blank_parchment':'Copy a spell onto it at the Scribe’s Table.',
+ 'blank_glyph':'An unwritten glyph.',
+ 'blank_thread':'The base for every armor thread.',
+ 'dull_trinket':'The base for Jug Nouveau rings and amulets.',
+ 'mundane_belt':'The base for Jug Nouveau belts.',
+ 'magebloom_fiber':'Spun from Magebloom; mage armor and threads use it.',
+ 'magebloom':'Harvested from a Magebloom crop; spun into Magebloom Fiber.',
+ 'ring_of_potential':'Worn: +4 Focus capacity.',
+ 'arcanist_hood':'Arcanist mage armor: +3 Focus capacity a piece, and thread sockets.',
+ 'arcanist_robes':'Arcanist mage armor: +3 Focus capacity a piece, and thread sockets.',
+ 'arcanist_leggings':'Arcanist mage armor: +3 Focus capacity a piece, and thread sockets.',
+ 'arcanist_boots':'Arcanist mage armor: +3 Focus capacity a piece, and thread sockets.',
+ 'sorcerer_hood':'Sorcerer mage armor: +5 Focus capacity a piece, and the most thread sockets.',
+ 'sorcerer_robes':'Sorcerer mage armor: +5 Focus capacity a piece, and the most thread sockets.',
+ 'sorcerer_leggings':'Sorcerer mage armor: +5 Focus capacity a piece, and the most thread sockets.',
+ 'sorcerer_boots':'Sorcerer mage armor: +5 Focus capacity a piece, and the most thread sockets.',
+ 'battlemage_hood':'Battlemage armor from diamond armor: +1 Focus capacity a piece, and a thread socket.',
+ 'battlemage_robes':'Battlemage armor from diamond armor: +1 Focus capacity a piece, and a thread socket.',
+ 'battlemage_leggings':'Battlemage armor from diamond armor: +1 Focus capacity a piece, and a thread socket.',
+ 'battlemage_boots':'Battlemage armor from diamond armor: +1 Focus capacity a piece, and a thread socket.',
+ 'amplify_arrow':'A Spellbow arrow that adds Amplify to the bow’s spell.',
+ 'pierce_arrow':'A Spellbow arrow that adds Pierce to the bow’s spell.',
+ 'split_arrow':'A Spellbow arrow that adds Split to the bow’s spell.',
+ 'potion_flask_amplify':'A refillable flask that strengthens the potion it holds.',
+ 'potion_flask_extend_time':'A refillable flask that lengthens the potion it holds.',
+ 'splash_flask_cannon':'Fires a filled flask’s potion as a splash.',
+ 'lingering_flask_cannon':'Fires a filled flask’s potion as a lingering cloud.',
+ 'experience_gem':'Use it to gain the experience it holds.',
+ 'greater_experience_gem':'Use it to gain the experience it holds.',
+ 'source_berry_pie':'Food. A Mycelial Sourcelink turns Source Berry food into much more Ley Charge than other food.',
+ 'source_berry_roll':'Food. A Mycelial Sourcelink turns Source Berry food into much more Ley Charge than other food.',
+ 'starby_gift':'A Starbuncle’s gift: use it to open it.',
+ 'archwood_boat':'A boat of Archwood.',
+ 'worn_notebook':'Jug Nouveau’s supplied guide.',
+ 'debug':'A creative-mode debugging tool.',
+}
+
+def item_tooltip(key, spec):
+    """A Jug Nouveau item's own description: the supplied text about it, written-in text above, or the creature a spawn
+    egg makes; essences say they are not alchemical essence, and Source things say what Source is here."""
+    sources=[f'ars_jimbaux.{kind}.{key}' for kind in ('glyph_desc','perk_desc','ritual_desc','familiar_desc')]+[f'ars_jimbaux.{key}.tooltip',f'item.ars_jimbaux.{key}.desc',f'ars_jimbaux.page.{key}',f'ars_jimbaux.page1.{key}',f'ars_jimbaux.tome_flavor.{key}']
+    found=next((LANG[k] for k in sources if k in LANG),None)
+    if key in HAND:result=HAND[key]
+    elif found:result=first_sentence(text(found),160)
+    elif spec['kind']=='spawn_egg':result='Spawns a '+spec['name'].removesuffix(' Spawn Egg')+'.'
+    elif spec['kind']=='music_disc':result='A music disc.'
+    else:result=spec['name']+'.'
+    if key.endswith('_essence'):result+=' A spell ingredient, not the alchemical essence spent at a transmutation tablet.'
+    if key=='source_gem':result+=' The Source in the codex is Ley Charge here: 100 Source is 1 Ley Charge.'
+    return result

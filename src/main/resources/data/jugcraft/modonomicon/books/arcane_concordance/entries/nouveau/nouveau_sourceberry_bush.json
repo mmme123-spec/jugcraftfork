@@ -17,11 +17,25 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p0.title",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p0.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p2",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p2.title",
       "recipe_id_1": "jugcraft:nouveau/sourceberry_sack_to_bush",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p0.text"
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_sourceberry_bush.p2.text"
     }
   ]
 }

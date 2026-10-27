@@ -21,9 +21,23 @@ public final class JugNouveauClient {
     private static final DataTicket<net.minecraft.client.renderer.item.ItemStackRenderState> CARGO=DataTicket.create("jugcraft_starbuncle_cargo",net.minecraft.client.renderer.item.ItemStackRenderState.class);
     private static final DataTicket<net.minecraft.client.renderer.item.ItemStackRenderState> HAT=DataTicket.create("jugcraft_starbuncle_hat",net.minecraft.client.renderer.item.ItemStackRenderState.class);
     private JugNouveauClient(){}
+    /** A Jug Nouveau item's own description (tooltip.jugcraft.<id>, written by tools/nouveau_guide.py), wrapped under its name. */
+    private static void describe(net.minecraft.world.item.ItemStack stack,net.minecraft.world.item.Item.TooltipContext context,net.minecraft.world.item.TooltipFlag flag,java.util.List<net.minecraft.network.chat.Component> lines){
+        Identifier id=net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(stack.getItem());String key="tooltip.jugcraft."+id.getPath();
+        // The wand and charms write their own lines (NouveauItem).
+        if(!id.getNamespace().equals(Jugcraft.MOD_ID)||!id.getPath().startsWith("nouveau_")||stack.getItem() instanceof NouveauItem||lines.isEmpty()||!net.minecraft.locale.Language.getInstance().has(key))return;
+        int at=1;StringBuilder line=new StringBuilder();
+        for(String word:net.minecraft.locale.Language.getInstance().getOrDefault(key).split(" ")){
+            if(line.length()>0&&line.length()+word.length()>40){lines.add(at++,net.minecraft.network.chat.Component.literal(line.toString()).withStyle(net.minecraft.ChatFormatting.GRAY));line.setLength(0);}
+            if(line.length()>0)line.append(' ');
+            line.append(word);
+        }
+        if(line.length()>0)lines.add(at,net.minecraft.network.chat.Component.literal(line.toString()).withStyle(net.minecraft.ChatFormatting.GRAY));
+    }
     public static void register(){
         net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.registerGlobalReceiver(NouveauStorageTerminal.TabState.TYPE,(packet,context)->{if(context.client().player!=null&&context.client().player.containerMenu instanceof NouveauStorageTerminal.Menu menu&&menu.containerId==packet.menu())menu.visibleGroup=packet.label();});
         NouveauGear.openGuide=name->EncyclopediaClient.open(net.minecraft.client.Minecraft.getInstance(),EncyclopediaScreen.Back.GAME);
+        net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback.EVENT.register(JugNouveauClient::describe);
         NouveauVisuals.register();NouveauControlsClient.register();NouveauScryingClient.register();NouveauScrySightClient.register();NouveauBubbleClient.register();
         MenuScreens.register(NouveauRepositories.MENU,NouveauRepositoryScreen::new);MenuScreens.register(NouveauStorageTerminal.TYPE,NouveauStorageTerminalScreen::new);
         MenuScreens.register(NouveauPotionMenu.TYPE,NouveauPotionScreen::new);

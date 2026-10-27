@@ -17,11 +17,25 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p0.title",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p0.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p2",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p2.title",
       "recipe_id_1": "jugcraft:nouveau/source_jar",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p0.text"
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_source_jar.p2.text"
     }
   ]
 }

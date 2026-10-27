@@ -22,6 +22,20 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p0.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p0.text",
       "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay_deposit.p2.text",
+      "show_title_separator": true
     }
   ]
 }

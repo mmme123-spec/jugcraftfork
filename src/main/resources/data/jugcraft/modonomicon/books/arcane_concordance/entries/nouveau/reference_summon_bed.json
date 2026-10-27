@@ -22,13 +22,6 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.reference_summon_bed.p0.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.reference_summon_bed.p0.text",
       "show_title_separator": true
-    },
-    {
-      "type": "modonomicon:text",
-      "id": "p1",
-      "title": "book.jugcraft.arcane_concordance.nouveau.reference_summon_bed.p1.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.reference_summon_bed.p1.text",
-      "show_title_separator": true
     }
   ]
 }

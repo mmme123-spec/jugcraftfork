@@ -22,6 +22,34 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p0.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p0.text",
       "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p2.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p3",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p3.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p3.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p4",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p4.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_glyph_interact.p4.text",
+      "show_title_separator": true
     }
   ]
 }

@@ -24,11 +24,46 @@
       "show_title_separator": true
     },
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p1",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p1.title",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p2.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p3",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p3.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p3.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p4",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p4.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p4.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p5",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p5.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p5.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p6",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p6.title",
       "recipe_id_1": "jugcraft:nouveau/clear_alakarkinos_charm",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p1.text"
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_alakarkinos_charm.p6.text"
     }
   ]
 }

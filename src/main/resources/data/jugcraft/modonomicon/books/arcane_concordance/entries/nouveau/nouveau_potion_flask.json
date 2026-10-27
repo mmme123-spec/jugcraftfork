@@ -29,6 +29,27 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p1.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p1.text",
       "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p2.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p3",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p3.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p3.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p4",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p4.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_potion_flask.p4.text",
+      "show_title_separator": true
     }
   ]
 }

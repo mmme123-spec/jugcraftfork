@@ -22,6 +22,13 @@
       "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_belt_of_levitation.p0.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_belt_of_levitation.p0.text",
       "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_belt_of_levitation.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_belt_of_levitation.p1.text",
+      "show_title_separator": true
     }
   ]
 }

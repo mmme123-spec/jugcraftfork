@@ -17,24 +17,31 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p0.title",
-      "recipe_id_1": "jugcraft:nouveau/reset_warp_scroll",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p0.text"
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p0.text",
+      "show_title_separator": true
     },
     {
       "type": "modonomicon:crafting_recipe",
       "id": "p1",
       "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p1.title",
-      "recipe_id_1": "jugcraft:nouveau/warp_scroll",
+      "recipe_id_1": "jugcraft:nouveau/reset_warp_scroll",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p1.text"
     },
     {
-      "type": "modonomicon:text",
+      "type": "modonomicon:crafting_recipe",
       "id": "p2",
-      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p2.title",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p2.text",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p2.title",
+      "recipe_id_1": "jugcraft:nouveau/warp_scroll",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p2.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p3",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p3.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_warp_scroll.p3.text",
       "show_title_separator": true
     }
   ]

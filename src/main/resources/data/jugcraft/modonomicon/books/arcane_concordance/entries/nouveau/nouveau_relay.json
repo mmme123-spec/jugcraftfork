@@ -17,11 +17,32 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p0.title",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p0.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p1",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p1.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p2.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p3",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p3.title",
       "recipe_id_1": "jugcraft:nouveau/relay",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p0.text"
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_relay.p3.text"
     }
   ]
 }

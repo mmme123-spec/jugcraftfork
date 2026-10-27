@@ -17,17 +17,66 @@
   },
   "pages": [
     {
-      "type": "modonomicon:crafting_recipe",
+      "type": "modonomicon:text",
       "id": "p0",
-      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p0.title",
-      "recipe_id_1": "jugcraft:nouveau/clear_whirlisprig_charm",
-      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p0.text"
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p0.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p0.text",
+      "show_title_separator": true
     },
     {
       "type": "modonomicon:text",
       "id": "p1",
       "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p1.title",
       "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p1.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p2",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p2.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p2.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p3",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p3.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p3.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p4",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p4.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p4.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p5",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p5.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p5.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p6",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p6.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p6.text",
+      "show_title_separator": true
+    },
+    {
+      "type": "modonomicon:crafting_recipe",
+      "id": "p7",
+      "title1": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p7.title",
+      "recipe_id_1": "jugcraft:nouveau/clear_whirlisprig_charm",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p7.text"
+    },
+    {
+      "type": "modonomicon:text",
+      "id": "p8",
+      "title": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p8.title",
+      "text": "book.jugcraft.arcane_concordance.nouveau.nouveau_whirlisprig_charm.p8.text",
       "show_title_separator": true
     }
   ]
