@@ -15,9 +15,13 @@ final class CompanionGroundNavigation extends GroundPathNavigation {
                 var original=super.getPathType(context,x,y,z);
                 if(mob instanceof PeepoEntity npc){
                     var pos=new BlockPos(x,y,z);
-                    // Route around the wheel: neither its mechanism nor its top is a walking surface.
+                    // Small companions must route around mechanisms and bench legs, not under/over them.
                     if(context.getBlockState(pos).getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.SpinningWheelBlock
-                        || context.getBlockState(pos.below()).getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.SpinningWheelBlock)return PathType.FENCE;
+                        || context.getBlockState(pos.below()).getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.SpinningWheelBlock
+                        || context.getBlockState(pos).getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.TreeTapBlock
+                        || context.getBlockState(pos.below()).getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.TreeTapBlock
+                        || equipment(context.getBlockState(pos))
+                        || equipment(context.getBlockState(pos.below())))return PathType.FENCE;
                     if(CompanionHazards.harmful(npc,context.getBlockState(pos))
                         || CompanionHazards.harmful(npc,context.getBlockState(pos.below())))return PathType.BLOCKED;
                 }
@@ -29,6 +33,11 @@ final class CompanionGroundNavigation extends GroundPathNavigation {
             }
         };
         nodeEvaluator.setCanPassDoors(true);return new PathFinder(nodeEvaluator,range);
+    }
+    private static boolean equipment(net.minecraft.world.level.block.state.BlockState state){
+        return state.getBlock() instanceof io.github.jimbozoomer.jugcraft.workshop.WorkshopBlock
+            || state.getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.CiderPressBlock
+            || state.getBlock() instanceof io.github.jimbozoomer.jugcraft.agriculture.CanningKettleBlock;
     }
     @Override public void tick(){
         // Recheck only the next few steps, so a stove lit after planning invalidates the route.
